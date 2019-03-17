@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.daina.mapper.ParkingLotMapper">
+    <resultMap id="BaseResultMap" type="com.example.daina.entity.ParkingLot">
+        <id column="parkinglot_id" jdbcType="VARCHAR" property="parkingLotId"/>
+        <result column="parkinglot_type" jdbcType="INTEGER" property="parkingLotType" />
+        <result column="parkinglot_name" jdbcType="VARCHAR" property="parkingLotName" />
+        <result column="parkinglot_code" jdbcType="VARCHAR" property="parkingLotCode"/>
+        <result column="lon" jdbcType="DECIMAL" property="lon" />
+        <result column="lat" jdbcType="DECIMAL" property="lat" />
+        <result column="is_sub" jdbcType="INTEGER" property="isSub" />
+        <result column="parent_parkinglot_id" jdbcType="VARCHAR" property="parentParkingLotId" />
+        <result column="paid_freetime" jdbcType="INTEGER" property="paidFreeTime" />
+        <result column="monthly_over" jdbcType="INTEGER" property="monthlyOver"/>
+        <result column="monthly_free_time" jdbcType="INTEGER" property="monthlyFreeTime" />
+        <result column="is_freeparking" jdbcType="INTEGER" property="isFreeParking" />
+        <result column="address" jdbcType="VARCHAR" property="address" />
+        <result column="total_places" jdbcType="INTEGER" property="totalPlaces" />
+    </resultMap>
+
+    <select id="getParkingLotByPage" resultMap="BaseResultMap">
+        SELECT * FROM parking_parkinglot WHERE parent_parkinglot_id is NULL
+    </select>
+    <select id="getParkingLotCount" resultType="Integer">
+        SELECT COUNT(*) FROM parking_parkinglot WHERE parent_parkinglot_id is NULL
+    </select>
+</mapper>
