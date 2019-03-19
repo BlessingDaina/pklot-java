@@ -8,8 +8,10 @@ import com.example.daina.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,5 +39,49 @@ public class UserController {
             map.put("token", token);
             return ResultUtil.success(map);
         }
+    }
+
+    @RequestMapping(value = "/pklot/getUserList", method = RequestMethod.POST)
+    public Result getUserList(@RequestParam("userInfo")String userInfo,
+                              @RequestParam("roleId")String roleId,
+                              @RequestParam("delFlag")Integer delFlag) {
+        List<Map<String, Object>> users = userService.getUserList(userInfo, roleId, delFlag);
+        return ResultUtil.success(users);
+    }
+
+    @RequestMapping(value = "/pklot/getIsUsedLoginName", method = RequestMethod.POST)
+    public Result getIsUsedLoginName(@RequestParam("loginName")String loginName) {
+        Integer count = userService.getIsUsedLoginName(loginName);
+        return ResultUtil.success(count);
+    }
+
+    @RequestMapping(value = "/pklot/getIsUsedPhone", method = RequestMethod.POST)
+    public Result getIsUsedPhone(@RequestParam("phone")String phone) {
+        Integer count = userService.getIsUsedPhone(phone);
+        return ResultUtil.success(count);
+    }
+
+    @RequestMapping(value = "/pklot/addUser", method = RequestMethod.POST)
+    public Result addUser(User user) {
+        Integer result = userService.addUser(user);
+        return ResultUtil.success(result);
+    }
+
+    @RequestMapping(value = "/pklot/updateUser", method = RequestMethod.POST)
+    public Result updateUser(User user) {
+        Integer result = userService.updateUser(user);
+        return ResultUtil.success(result);
+    }
+
+    @RequestMapping(value = "/pklot/resetPwd", method = RequestMethod.POST)
+    public Result resetPwd(User user) {
+        Integer result = userService.resetPwd(user);
+        return ResultUtil.success(result);
+    }
+
+    @RequestMapping(value = "/pklot/updateStatus", method = RequestMethod.POST)
+    public Result updateStatus(User user) {
+        Integer result = userService.updateStatus(user);
+        return ResultUtil.success(result);
     }
 }

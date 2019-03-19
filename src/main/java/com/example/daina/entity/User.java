@@ -14,6 +14,7 @@ public class User {
     private String phone;
     private Integer isAdmin;
     private Integer delFlag;
+    private String roleId;
 
     public String getUserId() {
         return userId;
@@ -77,5 +78,13 @@ public class User {
 
     public void setDelFlag(Integer delFlag) {
         this.delFlag = delFlag;
+    }
+
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
     }
 }

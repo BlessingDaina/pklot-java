@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,5 +37,28 @@ public class UserService {
     }
     public User findUserById(String userId) {
         return userMapper.findUserByUserId(userId);
+    }
+
+    public List<Map<String, Object>> getUserList (String userInfo, String roleId, Integer delFlag) {
+        List<Map<String, Object>> users = userMapper.getUserList(userInfo, roleId, delFlag);
+        return users;
+    }
+    public Integer getIsUsedLoginName(String loginName) {
+        return userMapper.getIsUsedLoginName(loginName);
+    }
+    public Integer getIsUsedPhone(String phone) {
+        return userMapper.getIsUsedPhone(phone);
+    }
+    public Integer addUser(User user) {
+        return userMapper.addUser(user);
+    }
+    public Integer updateUser(User user) {
+        return userMapper.updateUser(user);
+    }
+    public Integer resetPwd(User user) {
+        return userMapper.resetPwd(user);
+    }
+    public Integer updateStatus(User user) {
+        return userMapper.updateStatus(user);
     }
 }
