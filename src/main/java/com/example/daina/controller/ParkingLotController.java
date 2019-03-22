@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @author: Daina
  * @description:
@@ -25,8 +27,29 @@ public class ParkingLotController {
 
     @UserLoginToken
     @RequestMapping(value = "getParkingLotList", method = RequestMethod.POST)
-    public Result getParkingLotByPage(@RequestParam("pageNum")Integer pageNum, @RequestParam("pageSize")Integer pageSize) {
-        Page<ParkingLot> parkingLots = parkingLotService.getParkingLotByPage(pageNum, pageSize);
+    public Result getParkingLotByPage(@RequestParam("pageNum")Integer pageNum, @RequestParam("pageSize")Integer pageSize, @RequestParam("parkingLotName")String parkingLotName) {
+        Page<ParkingLot> parkingLots = parkingLotService.getParkingLotByPage(pageNum, pageSize, parkingLotName);
         return ResultUtil.success(parkingLots);
+    }
+
+    @UserLoginToken
+    @RequestMapping(value = "getParkingLotInfo", method = RequestMethod.POST)
+    public Result getParkingLotInfo(@RequestParam("parkingLotId")String parkingLotId) {
+        ParkingLot parkingLot = parkingLotService.getParkingLotInfo(parkingLotId);
+        return ResultUtil.success(parkingLot);
+    }
+
+    @UserLoginToken
+    @RequestMapping(value = "getNestParkingLot", method = RequestMethod.POST)
+    public Result getNestParkingLot(@RequestParam("parkingLotId")String parkingLotId) {
+        List<ParkingLot> parkingLots = parkingLotService.getNestParkingLot(parkingLotId);
+        return ResultUtil.success(parkingLots);
+    }
+
+    @UserLoginToken
+    @RequestMapping(value = "updateManagement", method = RequestMethod.POST)
+    public Result updateManagement(@RequestParam("key")String key,@RequestParam("value")String value,@RequestParam("parkingLotId")String parkingLotId) {
+        Integer result = parkingLotService.updateManagement(key, value, parkingLotId);
+        return ResultUtil.success(result);
     }
 }

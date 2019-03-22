@@ -22,6 +22,16 @@ public class ParkingLot {
     private Integer isFreeParking;
     private String address;
     private Integer totalPlaces;
+    private Integer emptyPlaces;
+    private Integer isOutdoor;
+    private Integer isSearchable;
+    private Integer isTempParking;
+    private Integer isZeroEnter;
+    private BigDecimal defaultPrice;
+    private Integer isExitAuto;
+    private String freeStartTime;
+    private String freeEndTime;
+    private Integer delFlag;
 
     public String getParkingLotId() {
         return parkingLotId;
@@ -133,5 +143,85 @@ public class ParkingLot {
 
     public void setTotalPlaces(Integer totalPlaces) {
         this.totalPlaces = totalPlaces;
+    }
+
+    public Integer getEmptyPlaces() {
+        return emptyPlaces;
+    }
+
+    public void setEmptyPlaces(Integer emptyPlaces) {
+        this.emptyPlaces = emptyPlaces;
+    }
+
+    public Integer getIsOutdoor() {
+        return isOutdoor;
+    }
+
+    public void setIsOutdoor(Integer isOutdoor) {
+        this.isOutdoor = isOutdoor;
+    }
+
+    public Integer getIsSearchable() {
+        return isSearchable;
+    }
+
+    public void setIsSearchable(Integer isSearchable) {
+        this.isSearchable = isSearchable;
+    }
+
+    public Integer getIsTempParking() {
+        return isTempParking;
+    }
+
+    public void setIsTempParking(Integer isTempParking) {
+        this.isTempParking = isTempParking;
+    }
+
+    public Integer getIsZeroEnter() {
+        return isZeroEnter;
+    }
+
+    public void setIsZeroEnter(Integer isZeroEnter) {
+        this.isZeroEnter = isZeroEnter;
+    }
+
+    public BigDecimal getDefaultPrice() {
+        return defaultPrice;
+    }
+
+    public void setDefaultPrice(BigDecimal defaultPrice) {
+        this.defaultPrice = defaultPrice;
+    }
+
+    public Integer getIsExitAuto() {
+        return isExitAuto;
+    }
+
+    public void setIsExitAuto(Integer isExitAuto) {
+        this.isExitAuto = isExitAuto;
+    }
+
+    public String getFreeStartTime() {
+        return freeStartTime;
+    }
+
+    public void setFreeStartTime(String freeStartTime) {
+        this.freeStartTime = freeStartTime;
+    }
+
+    public String getFreeEndTime() {
+        return freeEndTime;
+    }
+
+    public void setFreeEndTime(String freeEndTime) {
+        this.freeEndTime = freeEndTime;
+    }
+
+    public Integer getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(Integer delFlag) {
+        this.delFlag = delFlag;
     }
 }

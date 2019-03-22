@@ -19,12 +19,27 @@ public class ParkingLotService {
     @Autowired
     ParkingLotMapper parkingLotMapper;
 
-    public Page<ParkingLot> getParkingLotByPage(Integer pageNum, Integer pageSize) {
+    public Page<ParkingLot> getParkingLotByPage(Integer pageNum, Integer pageSize, String parkingLotName) {
         PageHelper.startPage(pageNum, pageSize);
-        List<ParkingLot> parkingLots = parkingLotMapper.getParkingLotByPage();
+        List<ParkingLot> parkingLots = parkingLotMapper.getParkingLotByPage(parkingLotName);
         Integer count = parkingLotMapper.getParkingLotCount();
         Page<ParkingLot> pageData = new Page<>(pageNum, pageSize, count);
         pageData.setItems(parkingLots);
         return pageData;
+    }
+
+    public ParkingLot getParkingLotInfo(String parkingLotId) {
+        ParkingLot parkingLot = parkingLotMapper.getParkingLotInfo(parkingLotId);
+        return parkingLot;
+    }
+
+    public List<ParkingLot> getNestParkingLot(String parkingLotId) {
+        List<ParkingLot> parkingLots = parkingLotMapper.getNestParkingLot(parkingLotId);
+        return parkingLots;
+    }
+
+    public Integer updateManagement(String key, String value, String parkingLotId) {
+        Integer result = parkingLotMapper.updateManagement(key, value, parkingLotId);
+        return result;
     }
 }
