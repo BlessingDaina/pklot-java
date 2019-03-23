@@ -25,4 +25,12 @@ public class RuleService {
     public Integer addChargeRule(Rule rule) {
         return ruleMapper.addChargeRule(rule);
     }
+
+    public Integer updateChargeRule(Rule rule) {
+        return ruleMapper.updateChargeRule(rule);
+    }
+
+    public Integer deleteChargeRule(String ruleId) {
+        return ruleMapper.deleteChargeRule(ruleId);
+    }
 }

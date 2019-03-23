@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.daina.mapper.DrivewayMapper">
+    <resultMap id="BaseResultMap" type="com.example.daina.entity.Driveway">
+        <id column="driveway_id" jdbcType="VARCHAR" property="ruleId"/>
+        <result column="parkinglot_id" jdbcType="VARCHAR" property="parkingLotId" />
+        <result column="driveway_name" jdbcType="VARCHAR" property="ruleName" />
+        <result column="driveway_type" jdbcType="INTEGER" property="parkingType" />
+        <result column="next_parkinglot_id" jdbcType="VARCHAR" property="licenseColor"/>
+        <result column="screen_type" jdbcType="INTEGER" property="carType" />
+        <result column="screen_params" jdbcType="VARCHAR" property="valuationType" />
+        <result column="is_sub" jdbcType="INTEGER" property="timeType" />
+        <result column="no_entrance" jdbcType="INTEGER" property="defaultPrice" />
+        <result column="open_type" jdbcType="INTEGER" property="freeTime" />
+        <result column="monthly_auto_open" jdbcType="INTEGER" property="firstPrice" />
+        <result column="temp_auto_open" jdbcType="INTEGER" property="firstTime" />
+        <result column="is_auto_sound" jdbcType="INTEGER" property="afterPrice"/>
+        <result column="is_show_empty" jdbcType="INTEGER" property="afterTime" />
+        <result column="day_start" jdbcType="INTEGER" property="dayStartTime" />
+        <result column="day_volume" jdbcType="INTEGER" property="dayEndTime" />
+        <result column="night_start" jdbcType="INTEGER" property="dayFirstPrice" />
+        <result column="night_volume" jdbcType="INTEGER" property="dayFirstTime" />
+        <result column="driveway_status" jdbcType="INTEGER" property="dayAfterPrice" />
+    </resultMap>
+    <select id="getDrivewayList" resultMap="BaseResultMap">
+        SELECT * FROM park_driveway WHERE
+        driveway_status=#{drivewayStatus} AND driveway_name LIKE CONCAT('%',#{drivewayName},'%'))
+    </select>
+</mapper>

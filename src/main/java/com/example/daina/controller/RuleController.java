@@ -36,4 +36,18 @@ public class RuleController {
         Integer result = ruleService.addChargeRule(rule);
         return ResultUtil.success(result);
     }
+
+    @UserLoginToken
+    @RequestMapping(value = "/updateChargeRule")
+    public Result updateChargeRule(Rule rule) {
+        Integer result = ruleService.updateChargeRule(rule);
+        return ResultUtil.success(result);
+    }
+
+    @UserLoginToken
+    @RequestMapping(value = "/deleteChargeRule")
+    public Result deleteChargeRule(@RequestParam("ruleId")String ruleId) {
+        Integer result = ruleService.deleteChargeRule(ruleId);
+        return ResultUtil.success(result);
+    }
 }

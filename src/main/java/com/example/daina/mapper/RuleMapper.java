@@ -15,4 +15,6 @@ import java.util.List;
 public interface RuleMapper {
     List<Rule> getChargeRuleList(@Param("parkingLotId") String parkingLotId);
     Integer addChargeRule(Rule rule);
+    Integer updateChargeRule(Rule rule);
+    Integer deleteChargeRule(@Param("ruleId")String ruleId);
 }

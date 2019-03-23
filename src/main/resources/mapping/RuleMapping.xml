@@ -36,7 +36,7 @@
     </resultMap>
     <select id="getChargeRuleList" resultMap="BaseResultMap">
         SELECT * FROM park_charge_rules WHERE
-        parkinglot_id=#{parkingLotId}
+        parkinglot_id=#{parkingLotId} order by order_level
     </select>
     <insert id="addChargeRule">
         <selectKey keyProperty="ruleId" resultType="String" order="BEFORE">
@@ -53,4 +53,19 @@
         #{dayAfterTime}, #{dayLimit}, #{nightStartTime}, #{nightEndTime}, #{nightFirstPrice}, #{nightFirstTime},
         #{nightAfterPrice}, #{nightAfterTime}, #{nightLimit}, #{limitHour}, #{limitPrice})
     </insert>
+    <update id="updateChargeRule">
+        UPDATE park_charge_rules set
+        rule_name=#{ruleName},parking_type=#{parkingType}, license_color=#{licenseColor},
+        car_type=#{carType},valuation_type=#{valuationType}, time_type=#{timeType}, parking_type=#{parkingType},
+        license_color=#{licenseColor}, car_type=#{carType}, valuation_type=#{valuationType},
+        after_price=#{afterPrice}, after_time=#{afterTime}, day_start_time=#{dayStartTime},
+        day_end_time=#{dayEndTime},day_first_price=#{dayFirstPrice},day_first_time=#{dayFirstTime},
+        day_after_price=#{dayAfterPrice}, day_after_time=#{dayAfterTime}, day_limit=#{dayLimit},
+        night_start_time=#{nightStartTime},night_end_time=#{nightEndTime}, night_first_price=#{nightFirstPrice},
+        night_first_time=#{nightFirstTime}, night_after_price=#{nightAfterPrice}, night_after_time=#{nightAfterTime},
+        night_limit=#{nightLimit}, limit_hour=#{limitHour}, limit_price=#{limitPrice}WHERE rule_id=#{ruleId} AND parkinglot_id=#{parkingLotId}
+    </update>
+    <delete id="deleteChargeRule">
+        DELETE FROM park_charge_rules WHERE rule_id=#{ruleId}
+    </delete>
 </mapper>
