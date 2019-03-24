@@ -13,6 +13,13 @@ import java.util.List;
  */
 @Repository
 public interface MenuMapper {
+    /**
+     * 功能描述:
+     * 〈通过siteId获取菜单〉
+     * @param siteId 1
+     * @return : java.util.List<com.example.daina.entity.Menu>
+     * @author : daina
+     * @date : 2019/3/24 11:20
+     */
     List<Menu> getMenuParentBySiteId(@Param("siteId") String siteId);
-    List<Menu> getMenuByParentId(String parentId);
 }

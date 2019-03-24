@@ -3,40 +3,43 @@
 <mapper namespace="com.example.daina.mapper.RuleMapper">
     <resultMap id="BaseResultMap" type="com.example.daina.entity.Rule">
         <id column="rule_id" jdbcType="VARCHAR" property="ruleId"/>
-        <result column="parkinglot_id" jdbcType="VARCHAR" property="parkingLotId" />
-        <result column="rule_name" jdbcType="VARCHAR" property="ruleName" />
-        <result column="parking_type" jdbcType="VARCHAR" property="parkingType" />
+        <result column="parkinglot_id" jdbcType="VARCHAR" property="parkingLotId"/>
+        <result column="rule_name" jdbcType="VARCHAR" property="ruleName"/>
+        <result column="parking_type" jdbcType="VARCHAR" property="parkingType"/>
         <result column="license_color" jdbcType="VARCHAR" property="licenseColor"/>
-        <result column="car_type" jdbcType="VARCHAR" property="carType" />
-        <result column="valuation_type" jdbcType="VARCHAR" property="valuationType" />
-        <result column="time_type" jdbcType="VARCHAR" property="timeType" />
-        <result column="default_price" jdbcType="VARCHAR" property="defaultPrice" />
-        <result column="free_time" jdbcType="VARCHAR" property="freeTime" />
-        <result column="first_price" jdbcType="VARCHAR" property="firstPrice" />
-        <result column="first_time" jdbcType="VARCHAR" property="firstTime" />
+        <result column="car_type" jdbcType="VARCHAR" property="carType"/>
+        <result column="valuation_type" jdbcType="VARCHAR" property="valuationType"/>
+        <result column="time_type" jdbcType="VARCHAR" property="timeType"/>
+        <result column="default_price" jdbcType="VARCHAR" property="defaultPrice"/>
+        <result column="free_time" jdbcType="VARCHAR" property="freeTime"/>
+        <result column="first_price" jdbcType="VARCHAR" property="firstPrice"/>
+        <result column="first_time" jdbcType="VARCHAR" property="firstTime"/>
         <result column="after_price" jdbcType="VARCHAR" property="afterPrice"/>
-        <result column="after_time" jdbcType="VARCHAR" property="afterTime" />
-        <result column="day_start_time" jdbcType="VARCHAR" property="dayStartTime" />
-        <result column="day_end_time" jdbcType="VARCHAR" property="dayEndTime" />
-        <result column="day_first_price" jdbcType="VARCHAR" property="dayFirstPrice" />
-        <result column="day_first_time" jdbcType="VARCHAR" property="dayFirstTime" />
-        <result column="day_after_price" jdbcType="VARCHAR" property="dayAfterPrice" />
+        <result column="after_time" jdbcType="VARCHAR" property="afterTime"/>
+        <result column="day_start_time" jdbcType="VARCHAR" property="dayStartTime"/>
+        <result column="day_end_time" jdbcType="VARCHAR" property="dayEndTime"/>
+        <result column="day_first_price" jdbcType="VARCHAR" property="dayFirstPrice"/>
+        <result column="day_first_time" jdbcType="VARCHAR" property="dayFirstTime"/>
+        <result column="day_after_price" jdbcType="VARCHAR" property="dayAfterPrice"/>
         <result column="day_after_time" jdbcType="VARCHAR" property="dayAfterTime"/>
-        <result column="day_limit" jdbcType="VARCHAR" property="dayLimit" />
-        <result column="night_start_time" jdbcType="VARCHAR" property="nightStartTime" />
-        <result column="night_end_time" jdbcType="VARCHAR" property="nightEndTime" />
-        <result column="night_first_price" jdbcType="VARCHAR" property="nightFirstPrice" />
-        <result column="night_first_time" jdbcType="VARCHAR" property="nightFirstTime" />
-        <result column="night_after_price" jdbcType="VARCHAR" property="nightAfterPrice" />
-        <result column="night_after_time" jdbcType="VARCHAR" property="nightAfterTime" />
+        <result column="day_limit" jdbcType="VARCHAR" property="dayLimit"/>
+        <result column="night_start_time" jdbcType="VARCHAR" property="nightStartTime"/>
+        <result column="night_end_time" jdbcType="VARCHAR" property="nightEndTime"/>
+        <result column="night_first_price" jdbcType="VARCHAR" property="nightFirstPrice"/>
+        <result column="night_first_time" jdbcType="VARCHAR" property="nightFirstTime"/>
+        <result column="night_after_price" jdbcType="VARCHAR" property="nightAfterPrice"/>
+        <result column="night_after_time" jdbcType="VARCHAR" property="nightAfterTime"/>
         <result column="night_limit" jdbcType="VARCHAR" property="nightLimit"/>
-        <result column="limit_hour" jdbcType="VARCHAR" property="limitHour" />
-        <result column="limit_price" jdbcType="VARCHAR" property="limitPrice" />
-        <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
+        <result column="limit_hour" jdbcType="VARCHAR" property="limitHour"/>
+        <result column="limit_price" jdbcType="VARCHAR" property="limitPrice"/>
+        <result column="del_flag" jdbcType="INTEGER" property="delFlag"/>
     </resultMap>
     <select id="getChargeRuleList" resultMap="BaseResultMap">
-        SELECT * FROM park_charge_rules WHERE
-        parkinglot_id=#{parkingLotId} order by order_level
+        SELECT *
+        FROM park_charge_rules
+        WHERE
+            parkinglot_id = #{parkingLotId}
+        ORDER BY order_level
     </select>
     <insert id="addChargeRule">
         <selectKey keyProperty="ruleId" resultType="String" order="BEFORE">
@@ -46,7 +49,7 @@
         valuation_type, time_type, default_price, free_time, first_price, first_time,
         after_price, after_time, day_start_time, day_end_time, day_first_price, day_first_time,
         day_after_price, day_after_time, day_limit,night_start_time, night_end_time, night_first_price,
-        night_first_time,  night_after_price, night_after_time,night_limit, limit_hour, limit_price)
+        night_first_time, night_after_price, night_after_time,night_limit, limit_hour, limit_price)
         VALUES (#{ruleId},#{parkingLotId}, #{ruleName}, #{parkingType}, #{licenseColor}, #{carType}, #{valuationType},
         #{timeType}, #{defaultPrice}, #{freeTime}, #{firstPrice}, #{firstTime}, #{afterPrice},
         #{afterTime}, #{dayStartTime}, #{dayEndTime}, #{dayFirstPrice}, #{dayFirstTime}, #{dayAfterPrice},
@@ -54,18 +57,24 @@
         #{nightAfterPrice}, #{nightAfterTime}, #{nightLimit}, #{limitHour}, #{limitPrice})
     </insert>
     <update id="updateChargeRule">
-        UPDATE park_charge_rules set
-        rule_name=#{ruleName},parking_type=#{parkingType}, license_color=#{licenseColor},
-        car_type=#{carType},valuation_type=#{valuationType}, time_type=#{timeType}, parking_type=#{parkingType},
-        license_color=#{licenseColor}, car_type=#{carType}, valuation_type=#{valuationType},
-        after_price=#{afterPrice}, after_time=#{afterTime}, day_start_time=#{dayStartTime},
-        day_end_time=#{dayEndTime},day_first_price=#{dayFirstPrice},day_first_time=#{dayFirstTime},
-        day_after_price=#{dayAfterPrice}, day_after_time=#{dayAfterTime}, day_limit=#{dayLimit},
-        night_start_time=#{nightStartTime},night_end_time=#{nightEndTime}, night_first_price=#{nightFirstPrice},
-        night_first_time=#{nightFirstTime}, night_after_price=#{nightAfterPrice}, night_after_time=#{nightAfterTime},
-        night_limit=#{nightLimit}, limit_hour=#{limitHour}, limit_price=#{limitPrice}WHERE rule_id=#{ruleId} AND parkinglot_id=#{parkingLotId}
+        UPDATE park_charge_rules
+        SET
+            rule_name         = #{ruleName}, parking_type = #{parkingType}, license_color = #{licenseColor},
+            car_type          = #{carType}, valuation_type = #{valuationType}, time_type = #{timeType},
+            parking_type      = #{parkingType},
+            license_color     = #{licenseColor}, car_type = #{carType}, valuation_type = #{valuationType},
+            after_price       = #{afterPrice}, after_time = #{afterTime}, day_start_time = #{dayStartTime},
+            day_end_time      = #{dayEndTime}, day_first_price = #{dayFirstPrice}, day_first_time = #{dayFirstTime},
+            day_after_price   = #{dayAfterPrice}, day_after_time = #{dayAfterTime}, day_limit = #{dayLimit},
+            night_start_time  = #{nightStartTime}, night_end_time = #{nightEndTime},
+            night_first_price = #{nightFirstPrice},
+            night_first_time  = #{nightFirstTime}, night_after_price = #{nightAfterPrice},
+            night_after_time  = #{nightAfterTime},
+            night_limit       = #{nightLimit}, limit_hour = #{limitHour},
+            limit_price       = #{limitPrice}WHERE rule_id=#{ruleId} AND parkinglot_id=#{parkingLotId}
     </update>
     <delete id="deleteChargeRule">
-        DELETE FROM park_charge_rules WHERE rule_id=#{ruleId}
+        DELETE FROM park_charge_rules
+        WHERE rule_id = #{ruleId}
     </delete>
 </mapper>

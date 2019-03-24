@@ -25,8 +25,49 @@ public class DrivewayController {
 
     @UserLoginToken
     @RequestMapping(value = "/getDrivewayList")
-    public Result getDrivewayList(@RequestParam("drivewayStatus")String drivewayStatus, @RequestParam("drivewayName")String drivewayName) {
-        List<Driveway> driveways = drivewayService.getDrivewayList(drivewayStatus, drivewayName);
+    public Result getDrivewayList(@RequestParam("parkingLotId")String parkingLotId,
+                                  @RequestParam("drivewayName")String drivewayName) {
+        List<Driveway> driveways = drivewayService.getDrivewayList(parkingLotId, drivewayName);
         return ResultUtil.success(driveways);
+    }
+
+    @UserLoginToken
+    @RequestMapping(value = "/getDrivewayListByType")
+    public Result getDrivewayListByType(@RequestParam("parkingLotId")String parkingLotId,
+                                        @RequestParam("drivewayName")String drivewayName,
+                                        @RequestParam("drivewayType")String drivewayType) {
+        List<Driveway> driveways = drivewayService.getDrivewayListType(parkingLotId, drivewayName, drivewayType);
+        return ResultUtil.success(driveways);
+    }
+
+    @UserLoginToken
+    @RequestMapping(value = "/getDrivewayListByStatus")
+    public Result getDrivewayListByStatus(@RequestParam("parkingLotId")String parkingLotId,
+                                          @RequestParam("drivewayName")String drivewayName,
+                                          @RequestParam("drivewayStatus")String drivewayStatus) {
+        List<Driveway> driveways = drivewayService.getDrivewayListByStatus(parkingLotId, drivewayName, drivewayStatus);
+        return ResultUtil.success(driveways);
+    }
+
+    @UserLoginToken
+    @RequestMapping(value = "/getDrivewayInfo")
+    public Result getDrivewayInfo(@RequestParam("drivewayId")String drivewayId) {
+        Driveway driveway = drivewayService.getDrivewayInfo(drivewayId);
+        return ResultUtil.success(driveway);
+    }
+
+    @UserLoginToken
+    @RequestMapping(value = "/updateDriveway")
+    public Result updateDriveway(Driveway driveway) {
+        Integer result = drivewayService.updateDriveway(driveway);
+        return ResultUtil.success(result);
+    }
+
+    @UserLoginToken
+    @RequestMapping(value = "/updateDrivewayStatus")
+    public Result updateDrivewayStatus(@RequestParam("drivewayId")String drivewayId,
+                                       @RequestParam("drivewayStatus")Integer drivewayStatus) {
+        Integer result = drivewayService.updateDrivewayStatus(drivewayId, drivewayStatus);
+        return ResultUtil.success(result);
     }
 }

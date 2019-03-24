@@ -12,5 +12,13 @@ import java.util.List;
  */
 @Repository
 public interface RoleMapper {
+    /**
+     * 功能描述:
+     * 〈获取所有角色〉
+     * @param  1
+     * @return : java.util.List<com.example.daina.entity.Role>
+     * @author : daina
+     * @date : 2019/3/24 11:22
+     */
     List<Role> getAllRole();
 }

@@ -3,21 +3,26 @@
 <mapper namespace="com.example.daina.mapper.CategoryMapper">
     <resultMap id="BaseResultMap" type="com.example.daina.entity.Category">
         <id column="category_id" jdbcType="VARCHAR" property="categoryId"/>
-        <result column="parkinglot_id" jdbcType="VARCHAR" property="parkingLotId" />
-        <result column="category_type" jdbcType="VARCHAR" property="categoryType" />
-        <result column="category_value" jdbcType="VARCHAR" property="categoryValue" />
+        <result column="parkinglot_id" jdbcType="VARCHAR" property="parkingLotId"/>
+        <result column="category_type" jdbcType="VARCHAR" property="categoryType"/>
+        <result column="category_value" jdbcType="VARCHAR" property="categoryValue"/>
         <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
-        <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
+        <result column="del_flag" jdbcType="INTEGER" property="delFlag"/>
     </resultMap>
     <resultMap id="returnMap" type="java.util.HashMap">
         <id column="category_id" jdbcType="VARCHAR" property="categoryId"/>
-        <result column="parkinglot_id" jdbcType="VARCHAR" property="parkingLotId" />
-        <result column="category_value" jdbcType="VARCHAR" property="categoryValue" />
+        <result column="parkinglot_id" jdbcType="VARCHAR" property="parkingLotId"/>
+        <result column="category_value" jdbcType="VARCHAR" property="categoryValue"/>
         <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
     </resultMap>
     <select id="getCarCategoryList" resultMap="returnMap">
-        SELECT category_id, parkinglot_id, category_value, category_name FROM park_car_category
-        WHERE parkinglot_id=#{parkingLotId} AND category_type=#{categoryType}
+        SELECT
+            category_id,
+            parkinglot_id,
+            category_value,
+            category_name
+        FROM park_car_category
+        WHERE parkinglot_id = #{parkingLotId} AND category_type = #{categoryType}
     </select>
     <insert id="addCarCategory">
         <selectKey keyProperty="categoryId" resultType="String" order="BEFORE">
@@ -27,6 +32,7 @@
         VALUES (#{categoryId}, #{parkingLotId}, #{categoryType}, #{categoryName})
     </insert>
     <delete id="deleteCarCategory">
-        DELETE FROM park_car_category WHERE category_id=#{categoryId}
+        DELETE FROM park_car_category
+        WHERE category_id = #{categoryId}
     </delete>
 </mapper>

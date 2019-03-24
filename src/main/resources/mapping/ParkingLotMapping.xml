@@ -3,44 +3,54 @@
 <mapper namespace="com.example.daina.mapper.ParkingLotMapper">
     <resultMap id="BaseResultMap" type="com.example.daina.entity.ParkingLot">
         <id column="parkinglot_id" jdbcType="VARCHAR" property="parkingLotId"/>
-        <result column="parkinglot_type" jdbcType="INTEGER" property="parkingLotType" />
-        <result column="parkinglot_name" jdbcType="VARCHAR" property="parkingLotName" />
+        <result column="parkinglot_type" jdbcType="INTEGER" property="parkingLotType"/>
+        <result column="parkinglot_name" jdbcType="VARCHAR" property="parkingLotName"/>
         <result column="parkinglot_code" jdbcType="VARCHAR" property="parkingLotCode"/>
-        <result column="lon" jdbcType="DECIMAL" property="lon" />
-        <result column="lat" jdbcType="DECIMAL" property="lat" />
-        <result column="is_sub" jdbcType="INTEGER" property="isSub" />
-        <result column="parent_parkinglot_id" jdbcType="VARCHAR" property="parentParkingLotId" />
-        <result column="paid_freetime" jdbcType="INTEGER" property="paidFreeTime" />
+        <result column="lon" jdbcType="DECIMAL" property="lon"/>
+        <result column="lat" jdbcType="DECIMAL" property="lat"/>
+        <result column="is_sub" jdbcType="INTEGER" property="isSub"/>
+        <result column="parent_parkinglot_id" jdbcType="VARCHAR" property="parentParkingLotId"/>
+        <result column="paid_freetime" jdbcType="INTEGER" property="paidFreeTime"/>
         <result column="monthly_over" jdbcType="INTEGER" property="monthlyOver"/>
-        <result column="monthly_free_time" jdbcType="INTEGER" property="monthlyFreeTime" />
-        <result column="is_freeparking" jdbcType="INTEGER" property="isFreeParking" />
-        <result column="address" jdbcType="VARCHAR" property="address" />
-        <result column="total_places" jdbcType="INTEGER" property="totalPlaces" />
-        <result column="empty_places" jdbcType="INTEGER" property="emptyPlaces" />
-        <result column="is_outdoor" jdbcType="INTEGER" property="isOutdoor" />
+        <result column="monthly_free_time" jdbcType="INTEGER" property="monthlyFreeTime"/>
+        <result column="is_freeparking" jdbcType="INTEGER" property="isFreeParking"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="total_places" jdbcType="INTEGER" property="totalPlaces"/>
+        <result column="empty_places" jdbcType="INTEGER" property="emptyPlaces"/>
+        <result column="is_outdoor" jdbcType="INTEGER" property="isOutdoor"/>
         <result column="is_searchable" jdbcType="INTEGER" property="isSearchable"/>
-        <result column="is_tempparking" jdbcType="INTEGER" property="isTempParking" />
-        <result column="is_zeroenter" jdbcType="INTEGER" property="isZeroEnter" />
-        <result column="default_price" jdbcType="DECIMAL" property="defaultPrice" />
-        <result column="is_exit_auto" jdbcType="INTEGER" property="isExitAuto" />
-        <result column="free_start_time" jdbcType="VARCHAR" property="freeStartTime" />
+        <result column="is_tempparking" jdbcType="INTEGER" property="isTempParking"/>
+        <result column="is_zeroenter" jdbcType="INTEGER" property="isZeroEnter"/>
+        <result column="default_price" jdbcType="DECIMAL" property="defaultPrice"/>
+        <result column="is_exit_auto" jdbcType="INTEGER" property="isExitAuto"/>
+        <result column="free_start_time" jdbcType="VARCHAR" property="freeStartTime"/>
         <result column="free_end_time" jdbcType="VARCHAR" property="freeEndTime"/>
-        <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
+        <result column="del_flag" jdbcType="INTEGER" property="delFlag"/>
     </resultMap>
 
     <select id="getParkingLotByPage" resultMap="BaseResultMap">
-        SELECT * FROM parking_parkinglot WHERE parent_parkinglot_id is NULL AND parkinglot_name LIKE CONCAT('%',#{parkingLotName},'%')
+        SELECT *
+        FROM parking_parkinglot
+        WHERE parent_parkinglot_id IS NULL AND parkinglot_name LIKE CONCAT('%', #{parkingLotName}, '%')
     </select>
     <select id="getParkingLotCount" resultType="Integer">
-        SELECT COUNT(*) FROM parking_parkinglot WHERE parent_parkinglot_id is NULL
+        SELECT COUNT(*)
+        FROM parking_parkinglot
+        WHERE parent_parkinglot_id IS NULL
     </select>
     <select id="getParkingLotInfo" resultMap="BaseResultMap">
-        SELECT * FROM parking_parkinglot WHERE parkinglot_id=#{parkingLotId}
+        SELECT *
+        FROM parking_parkinglot
+        WHERE parkinglot_id = #{parkingLotId}
     </select>
     <select id="getNestParkingLot" resultMap="BaseResultMap">
-        SELECT * FROM parking_parkinglot WHERE parent_parkinglot_id=#{parkingLotId} OR parkinglot_id=#{parkingLotId}
+        SELECT *
+        FROM parking_parkinglot
+        WHERE parent_parkinglot_id = #{parkingLotId} OR parkinglot_id = #{parkingLotId}
     </select>
     <update id="updateManagement" statementType="STATEMENT">
-        UPDATE parking_parkinglot set ${key}=${value} WHERE parkinglot_id=${parkingLotId}
+        UPDATE parking_parkinglot
+        SET ${key} = ${value}
+        WHERE parkinglot_id = ${parkingLotId}
     </update>
 </mapper>
