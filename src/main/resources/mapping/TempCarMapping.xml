@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.daina.mapper.TempCarMapper">
+    <resultMap id="BaseResultMap" type="com.example.daina.entity.TempCar">
+        <id column="tempcar_id" jdbcType="VARCHAR" property="tempCarId"/>
+        <result column="parkinglot_id" jdbcType="VARCHAR" property="parkingLotId"/>
+        <result column="car_license" jdbcType="INTEGER" property="carLicense"/>
+        <result column="category_id" jdbcType="VARCHAR" property="categoryId"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+    </resultMap>
+    <resultMap id="returnMap" type="java.util.HashMap">
+        <id column="tempcar_id" jdbcType="VARCHAR" property="tempCarId"/>
+        <result column="category_id" jdbcType="VARCHAR" property="categoryId"/>
+        <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+        <result column="car_license" jdbcType="VARCHAR" property="carLicense"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+    </resultMap>
+    <select id="getAllTempCarList" resultMap="returnMap">
+        SELECT
+            tempcar_id,
+            t.category_id,
+            c.category_name,
+            car_license,
+            remarks
+        FROM park_tempcar t LEFT JOIN park_car_category c ON t.category_id = c.category_id
+        WHERE t.parkinglot_id = #{parkingLotId} AND
+              car_license LIKE CONCAT('%', #{searchInfo}, '%')
+    </select>
+    <select id="getAllTempCarCount" resultType="Integer">
+        SELECT COUNT(*)
+        FROM park_tempcar
+        WHERE parkinglot_id = #{parkingLotId} AND
+              car_license LIKE CONCAT('%', #{searchInfo}, '%')
+    </select>
+    <select id="getTempCarListByCategoryId" resultMap="returnMap">
+        SELECT
+            tempcar_id,
+            t.category_id,
+            c.category_name,
+            car_license,
+            remarks
+        FROM park_tempcar t LEFT JOIN park_car_category c ON t.category_id = c.category_id
+        WHERE t.parkinglot_id = #{parkingLotId} AND t.category_id = #{categoryId} AND
+              car_license LIKE CONCAT('%', #{searchInfo}, '%')
+    </select>
+    <select id="getTempCarCountByCategoryId" resultType="Integer">
+        SELECT COUNT(*)
+        FROM park_tempcar
+        WHERE parkinglot_id = #{parkingLotId} AND category_id = #{categoryId} AND
+              car_license LIKE CONCAT('%', #{searchInfo}, '%')
+    </select>
+    <insert id="addTempCar">
+        <selectKey keyProperty="tempCarId" resultType="String" order="BEFORE">
+            SELECT replace(uuid(),'-','') AS userId FROM dual
+        </selectKey>
+        INSERT INTO park_tempcar(tempcar_id, parkinglot_id, category_id, car_license, remarks)
+        VALUES (#{tempCarId}, #{parkingLotId}, #{categoryId}, #{carLicense}, #{remarks})
+    </insert>
+    <select id="getIsUsedTempCar" resultType="Integer">
+        SELECT COUNT(*)
+        FROM park_tempcar
+        WHERE car_license = #{carLicense} AND parkinglot_id = #{parkingLotId}
+    </select>
+    <update id="updateTempCar">
+        UPDATE park_tempcar
+        SET car_license = #{carLicense}, category_id = #{categoryId}, remarks = #{remarks}
+        WHERE tempcar_id = #{tempCarId}
+    </update>
+    <delete id="deleteTempCar">
+        DELETE FROM park_tempcar
+        WHERE tempcar_id = #{tempCarId}
+    </delete>
+</mapper>
