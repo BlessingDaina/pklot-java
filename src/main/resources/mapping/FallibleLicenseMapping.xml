@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.daina.mapper.FallibleLicenseMapper">
+    <resultMap id="BaseResultMap" type="com.example.daina.entity.FallibleLicense">
+        <id column="fallible_id" jdbcType="VARCHAR" property="fallibleId"/>
+        <result column="parkinglot_id" jdbcType="VARCHAR" property="parkingLotId"/>
+        <result column="error_license" jdbcType="VARCHAR" property="errorLicense"/>
+        <result column="true_license" jdbcType="VARCHAR" property="trueLicense"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+    </resultMap>
+    <resultMap id="returnMap" type="java.util.HashMap">
+        <id column="fallible_id" jdbcType="VARCHAR" property="fallibleId"/>
+        <result column="parkinglot_id" jdbcType="VARCHAR" property="parkingLotId"/>
+        <result column="error_license" jdbcType="VARCHAR" property="errorLicense"/>
+        <result column="true_license" jdbcType="VARCHAR" property="trueLicense"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+    </resultMap>
+    <select id="getFallibleLicenseByPage" resultMap="returnMap">
+        SELECT *
+        FROM park_fallible_license
+        WHERE parkinglot_id = #{parkingLotId} AND true_license LIKE CONCAT('%', #{searchInfo}, '%')
+    </select>
+    <select id="getFallibleLicenseCount" resultType="Integer">
+        SELECT COUNT(*)
+        FROM park_fallible_license
+        WHERE parkinglot_id = #{parkingLotId} AND
+              true_license LIKE CONCAT('%', #{searchInfo}, '%')
+    </select>
+    <insert id="addFallibleLicense">
+        <selectKey keyProperty="fallibleId" resultType="String" order="BEFORE">
+            SELECT replace(uuid(),'-','') AS userId FROM dual
+        </selectKey>
+        INSERT INTO park_fallible_license(fallible_id, parkinglot_id, error_license, true_license, remarks)
+        VALUES (#{fallibleId}, #{parkingLotId}, #{errorLicense}, #{trueLicense}, #{remarks})
+    </insert>
+    <select id="getIsUsedErrorLicense" resultType="Integer">
+        SELECT COUNT(*)
+        FROM park_fallible_license
+        WHERE error_license = #{errorLicense} AND parkinglot_id = #{parkingLotId}
+    </select>
+    <update id="updateFallibleLicense">
+        UPDATE park_fallible_license
+        SET error_license = #{errorLicense}, true_license = #{trueLicense}, remarks = #{remarks}
+        WHERE fallible_id = #{fallibleId}
+    </update>
+    <delete id="deleteFallibleLicense">
+        DELETE FROM park_fallible_license
+        WHERE fallible_id = #{fallibleId}
+    </delete>
+</mapper>
