@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.daina.mapper.TimeRuleMapper">
+    <resultMap id="BaseResultMap" type="com.example.daina.entity.TimeRule">
+        <id column="timerule_id" jdbcType="VARCHAR" property="timeRuleId"/>
+        <result column="parkinglot_id" jdbcType="VARCHAR" property="parkingLotId"/>
+        <result column="timerule_name" jdbcType="INTEGER" property="timeRuleName"/>
+        <result column="timerule_option" jdbcType="VARCHAR" property="timeRuleOption"/>
+        <result column="monday" jdbcType="INTEGER" property="monday"/>
+        <result column="tuesday" jdbcType="INTEGER" property="tuesday"/>
+        <result column="wednesday" jdbcType="INTEGER" property="wednesday"/>
+        <result column="thursday" jdbcType="INTEGER" property="thursday"/>
+        <result column="friday" jdbcType="INTEGER" property="friday"/>
+        <result column="saturday" jdbcType="INTEGER" property="saturday"/>
+        <result column="sunday" jdbcType="INTEGER" property="sunday"/>
+        <result column="time_start1" jdbcType="VARCHAR" property="timeStart1"/>
+        <result column="time_end1" jdbcType="VARCHAR" property="timeEnd1"/>
+        <result column="time_start2" jdbcType="VARCHAR" property="timeStart2"/>
+        <result column="time_end2" jdbcType="VARCHAR" property="timeEnd2"/>
+        <result column="time_start3" jdbcType="VARCHAR" property="timeStart3"/>
+        <result column="time_end3" jdbcType="VARCHAR" property="timeEnd3"/>
+        <result column="time_start4" jdbcType="VARCHAR" property="timeStart4"/>
+        <result column="time_end4" jdbcType="VARCHAR" property="timeEnd4"/>
+        <result column="time_start5" jdbcType="VARCHAR" property="timeStart5"/>
+        <result column="time_end5" jdbcType="VARCHAR" property="timeEnd5"/>
+        <result column="time_start6" jdbcType="VARCHAR" property="timeStart6"/>
+        <result column="time_end6" jdbcType="VARCHAR" property="timeEnd6"/>
+        <result column="time_start7" jdbcType="VARCHAR" property="timeStart7"/>
+        <result column="time_end7" jdbcType="VARCHAR" property="timeEnd7"/>
+        <result column="price" jdbcType="DECIMAL" property="price"/>
+        <result column="online_limit" jdbcType="INTEGER" property="onlineLimit"/>
+        <result column="online_support" jdbcType="INTEGER" property="onlineSupport"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+    </resultMap>
+    <resultMap id="returnMap" type="java.util.HashMap">
+        <id column="timerule_id" jdbcType="VARCHAR" property="timeRuleId"/>
+        <result column="parkinglot_id" jdbcType="VARCHAR" property="parkingLotId"/>
+        <result column="timerule_name" jdbcType="INTEGER" property="timeRuleName"/>
+        <result column="timerule_option" jdbcType="VARCHAR" property="timeRuleOption"/>
+        <result column="monday" jdbcType="INTEGER" property="monday"/>
+        <result column="tuesday" jdbcType="INTEGER" property="tuesday"/>
+        <result column="wednesday" jdbcType="INTEGER" property="wednesday"/>
+        <result column="thursday" jdbcType="INTEGER" property="thursday"/>
+        <result column="friday" jdbcType="INTEGER" property="friday"/>
+        <result column="saturday" jdbcType="INTEGER" property="saturday"/>
+        <result column="sunday" jdbcType="INTEGER" property="sunday"/>
+        <result column="time_start1" jdbcType="VARCHAR" property="timeStart1"/>
+        <result column="time_end1" jdbcType="VARCHAR" property="timeEnd1"/>
+        <result column="time_start2" jdbcType="VARCHAR" property="timeStart2"/>
+        <result column="time_end2" jdbcType="VARCHAR" property="timeEnd2"/>
+        <result column="time_start3" jdbcType="VARCHAR" property="timeStart3"/>
+        <result column="time_end3" jdbcType="VARCHAR" property="timeEnd3"/>
+        <result column="time_start4" jdbcType="VARCHAR" property="timeStart4"/>
+        <result column="time_end4" jdbcType="VARCHAR" property="timeEnd4"/>
+        <result column="time_start5" jdbcType="VARCHAR" property="timeStart5"/>
+        <result column="time_end5" jdbcType="VARCHAR" property="timeEnd5"/>
+        <result column="time_start6" jdbcType="VARCHAR" property="timeStart6"/>
+        <result column="time_end6" jdbcType="VARCHAR" property="timeEnd6"/>
+        <result column="time_start7" jdbcType="VARCHAR" property="timeStart7"/>
+        <result column="time_end7" jdbcType="VARCHAR" property="timeEnd7"/>
+        <result column="price" jdbcType="DECIMAL" property="price"/>
+        <result column="online_limit" jdbcType="INTEGER" property="onlineLimit"/>
+        <result column="online_support" jdbcType="INTEGER" property="onlineSupport"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+    </resultMap>
+    <insert id="addTimeRule">
+        <selectKey keyProperty="timeRuleId" resultType="String" order="BEFORE">
+            SELECT replace(uuid(),'-','') AS userId FROM dual
+        </selectKey>
+        INSERT INTO park_monthly_timerule(timerule_id, parkinglot_id, timerule_name, timerule_option, monday, tuesday,
+        wednesday, thursday, friday, saturday, sunday, time_start1, time_end1, time_start2, time_end2, time_start3,
+        time_end3,
+        time_start4, time_end4, time_start5, time_end5, time_start6, time_end6, time_start7, time_end7, remarks)
+        VALUES (#{timeRuleId}, #{parkingLotId}, #{timeRuleName},#{timeRuleOption}, #{monday}, #{tuesday}, #{wednesday},
+        #{thursday}, #{friday}, #{saturday}, #{sunday}, #{timeStart1}, #{timeEnd1},
+        #{timeStart2}, #{timeEnd2},
+        #{timeStart3}, #{timeEnd3},
+        #{timeStart4}, #{timeEnd4},
+        #{timeStart5}, #{timeEnd5},
+        #{timeStart6}, #{timeEnd6},
+        #{timeStart7}, #{timeEnd7},
+        #{remarks})
+    </insert>
+    <select id="getTimeRuleListByPage" resultMap="returnMap">
+        SELECT *
+        FROM park_monthly_timerule
+        WHERE parkinglot_id = #{parkingLotId} AND
+              timerule_name LIKE CONCAT('%', #{searchInfo}, '%')
+    </select>
+    <select id="getTimeRuleCount" resultType="Integer">
+        SELECT COUNT(*)
+        FROM park_monthly_timerule
+        WHERE parkinglot_id = #{parkingLotId} AND
+              timerule_name LIKE CONCAT('%', #{searchInfo}, '%')
+    </select>
+    <update id="updateTimeRule">
+        UPDATE park_monthly_timerule
+        SET timerule_name   = #{timeRuleName},
+            timerule_option = #{timeRuleOption},
+            monday          = #{monday},
+            tuesday         = #{tuesday},
+            wednesday       = #{wednesday},
+            thursday        = #{thursday},
+            friday          = #{friday},
+            saturday        = #{saturday},
+            sunday          = #{sunday},
+            time_start1     = #{timeStart1},
+            time_end1       = #{timeEnd1},
+            time_start2     = #{timeStart2},
+            time_end2       = #{timeEnd2},
+            time_start3     = #{timeStart3},
+            time_end3       = #{timeEnd3},
+            time_start4     = #{timeStart4},
+            time_end4       = #{timeEnd4},
+            time_start5     = #{timeStart5},
+            time_end5       = #{timeEnd5},
+            time_start6     = #{timeStart6},
+            time_end6       = #{timeEnd6},
+            time_start7     = #{timeStart7},
+            time_end7       = #{timeEnd7},
+            remarks         = #{remarks}
+        WHERE timerule_id = #{timeRuleId}
+    </update>
+    <delete id="deleteTimeRule">
+        DELETE FROM park_monthly_timerule
+        WHERE timerule_id = #{timeRuleId}
+    </delete>
+</mapper>
