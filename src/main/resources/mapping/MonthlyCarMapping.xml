@@ -10,4 +10,45 @@
         <result column="end_date" jdbcType="VARCHAR" property="endDate"/>
         <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
     </resultMap>
+    <resultMap id="returnMap" type="java.util.HashMap">
+        <id column="monthly_car_id" jdbcType="VARCHAR" property="monthlyCarId"/>
+        <result column="monthly_id" jdbcType="VARCHAR" property="monthlyId"/>
+        <result column="parkinglot_id" jdbcType="VARCHAR" property="parkingLotId"/>
+        <result column="car_license" jdbcType="VARCHAR" property="carLicense"/>
+        <result column="start_date" jdbcType="INTEGER" property="startDate"/>
+        <result column="end_date" jdbcType="VARCHAR" property="endDate"/>
+    </resultMap>
+    <select id="getMonthlyCarListByPage" resultMap="returnMap">
+        SELECT *
+        FROM park_monthly_car
+        WHERE monthly_id = #{monthlyId} AND
+              car_license LIKE CONCAT('%', #{searchInfo}, '%')
+    </select>
+    <select id="getMonthlyCarCount" resultType="Integer">
+        SELECT COUNT(*)
+        FROM park_monthly_car
+        WHERE monthly_id = #{monthlyId} AND
+              car_license LIKE CONCAT('%', #{searchInfo}, '%')
+    </select>
+    <insert id="addMonthlyCar">
+        <selectKey keyProperty="monthlyCarId" resultType="String" order="BEFORE">
+            SELECT replace(uuid(),'-','') AS userId FROM dual
+        </selectKey>
+        INSERT INTO park_monthly_car(monthly_car_id, monthly_id,parkinglot_id, car_license, start_date, end_date)
+        VALUES (#{monthlyCarId}, #{monthlyId},#{parkingLotId}, #{carLicense}, #{startDate}, #{endDate})
+    </insert>
+    <update id="updateMonthlyCar">
+        UPDATE park_monthly_car
+        SET car_license = #{carLicense}, start_date = #{startDate}, end_date = #{endDate}
+        WHERE monthly_car_id = #{monthlyCarId}
+    </update>
+    <select id="getIsUsedMonthlyCarLicense" resultType="Integer">
+        SELECT COUNT(*)
+        FROM park_monthly_car
+        WHERE car_license = #{carLicense} AND parkinglot_id = #{parkingLotId}
+    </select>
+    <delete id="deleteMonthlyCar">
+        DELETE FROM park_monthly_car
+        WHERE monthly_car_id = #{monthlyCarId}
+    </delete>
 </mapper>
