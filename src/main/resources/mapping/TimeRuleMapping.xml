@@ -87,6 +87,16 @@
         WHERE parkinglot_id = #{parkingLotId} AND
               timerule_name LIKE CONCAT('%', #{searchInfo}, '%')
     </select>
+    <select id="getTimeRuleList" resultMap="returnMap">
+        SELECT *
+        FROM park_monthly_timerule
+        WHERE parkinglot_id = #{parkingLotId}
+    </select>
+    <select id="getTimeRuleById" resultMap="BaseResultMap">
+        SELECT *
+        FROM park_monthly_timerule
+        WHERE timerule_id = #{timeRuleId}
+    </select>
     <select id="getTimeRuleCount" resultType="Integer">
         SELECT COUNT(*)
         FROM park_monthly_timerule

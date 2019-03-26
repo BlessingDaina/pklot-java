@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @author: Daina
  * @description:
@@ -51,5 +53,19 @@ public class TimeRuleController {
     public Result deleteTimeRule(@RequestParam("timeRuleId")String timeRuleId) {
         Integer result = timeRuleService.deleteTimeRule(timeRuleId);
         return ResultUtil.success(result);
+    }
+
+    @UserLoginToken
+    @RequestMapping(value = "/getTimeRuleList")
+    public Result getTimeRuleList(@RequestParam("parkingLotId")String parkingLotId) {
+        List<TimeRule> timeRules = timeRuleService.getTimeRuleList(parkingLotId);
+        return ResultUtil.success(timeRules);
+    }
+
+    @UserLoginToken
+    @RequestMapping(value = "/getTimeRuleById")
+    public Result getTimeRuleById(@RequestParam("timeRuleId")String timeRuleId) {
+        TimeRule timeRule = timeRuleService.getTimeRuleById(timeRuleId);
+        return ResultUtil.success(timeRule);
     }
 }

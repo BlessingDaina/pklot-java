@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.daina.mapper.MonthlyMapper">
+    <resultMap id="BaseResultMap" type="com.example.daina.entity.Monthly">
+        <id column="monthly_id" jdbcType="VARCHAR" property="monthlyId"/>
+        <result column="parkinglot_id" jdbcType="VARCHAR" property="parkingLotId"/>
+        <result column="room_number" jdbcType="VARCHAR" property="roomNumber"/>
+        <result column="owner_name" jdbcType="VARCHAR" property="ownerName"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="monthly_type" jdbcType="INTEGER" property="monthlyType"/>
+        <result column="timerule_id" jdbcType="VARCHAR" property="timeRuleId"/>
+        <result column="car_license" jdbcType="VARCHAR" property="carLicense"/>
+        <result column="occupy_num" jdbcType="INTEGER" property="occupyNum"/>
+        <result column="monthly_amount" jdbcType="DECIMAL" property="monthlyAmount"/>
+        <result column="monthly_space" jdbcType="VARCHAR" property="monthlySpace"/>
+        <result column="category_id" jdbcType="VARCHAR" property="categoryId"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+    </resultMap>
+    <resultMap id="returnMap" type="java.util.HashMap">
+        <id column="monthly_id" jdbcType="VARCHAR" property="monthlyId"/>
+        <result column="parkinglot_id" jdbcType="VARCHAR" property="parkingLotId"/>
+        <result column="room_number" jdbcType="VARCHAR" property="roomNumber"/>
+        <result column="owner_name" jdbcType="VARCHAR" property="ownerName"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="monthly_type" jdbcType="INTEGER" property="monthlyType"/>
+        <result column="timerule_id" jdbcType="VARCHAR" property="timeRuleId"/>
+        <result column="car_license" jdbcType="VARCHAR" property="carLicense"/>
+        <result column="occupy_num" jdbcType="INTEGER" property="occupyNum"/>
+        <result column="monthly_amount" jdbcType="DECIMAL" property="monthlyAmount"/>
+        <result column="monthly_space" jdbcType="VARCHAR" property="monthlySpace"/>
+        <result column="category_id" jdbcType="VARCHAR" property="categoryId"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+    </resultMap>
+    <insert id="addMonthly">
+        <selectKey keyProperty="monthlyId" resultType="String" order="BEFORE">
+            SELECT replace(uuid(),'-','') AS userId FROM dual
+        </selectKey>
+        INSERT INTO park_monthly(monthly_id, parkinglot_id, room_number, owner_name, phone, monthly_type,
+        timerule_id, car_license, occupy_num, monthly_amount, monthly_space, category_id, remarks)
+        VALUES (#{monthlyId}, #{parkingLotId}, #{roomNumber}, #{ownerName}, #{phone}, #{monthlyType},
+        #{timeRuleId}, #{carLicense}, #{occupyNum}, #{monthlyAmount}, #{monthlySpace}, #{categoryId}, #{remarks})
+    </insert>
+    <select id="getMonthlyListByPage" resultMap="returnMap">
+        SELECT *
+        FROM park_monthly
+        WHERE parkinglot_id = #{parkingLotId} AND
+              (room_number LIKE CONCAT('%', #{searchInfo}, '%') OR
+               owner_name LIKE CONCAT('%', #{searchInfo}, '%') OR
+               car_license LIKE CONCAT('%', #{searchInfo}, '%') OR
+               monthly_space LIKE CONCAT('%', #{searchInfo}, '%'))
+    </select>
+    <select id="getMonthlyCount" resultType="Integer">
+        SELECT COUNT(*)
+        FROM park_monthly
+        WHERE parkinglot_id = #{parkingLotId} AND
+              (room_number LIKE CONCAT('%', #{searchInfo}, '%') OR
+               owner_name LIKE CONCAT('%', #{searchInfo}, '%') OR
+               car_license LIKE CONCAT('%', #{searchInfo}, '%') OR
+               monthly_space LIKE CONCAT('%', #{searchInfo}, '%'))
+    </select>
+    <update id="updateOccupyNum">
+        UPDATE park_monthly
+        SET occupy_num = #{occupyNum}
+        WHERE monthly_id = #{monthlyId}
+    </update>
+    <delete id="deleteMonthly">
+        DELETE FROM park_monthly
+        WHERE monthly_id = #{monthlyId}
+    </delete>
+</mapper>

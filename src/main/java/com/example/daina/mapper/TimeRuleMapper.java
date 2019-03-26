@@ -65,4 +65,24 @@ public interface TimeRuleMapper {
      * @date : 2019/3/25 13:57
      */
     Integer deleteTimeRule(@Param("timeRuleId")String timeRuleId);
+
+    /**
+     * 功能描述:
+     * 〈根据停车场获取包月时间规则〉
+     * @param parkingLotId 1
+     * @return : java.util.List<com.example.daina.entity.TimeRule>
+     * @author : daina
+     * @date : 2019/3/26 10:28
+     */
+    List<TimeRule> getTimeRuleList(@Param("parkingLotId")String parkingLotId);
+
+    /**
+     * 功能描述:
+     * 〈通过id获取包月时间规则〉
+     * @param timeRuleId 1
+     * @return : com.example.daina.entity.TimeRule
+     * @author : daina
+     * @date : 2019/3/26 10:43
+     */
+    TimeRule getTimeRuleById(@Param("timeRuleId")String timeRuleId);
 }

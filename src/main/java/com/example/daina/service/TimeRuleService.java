@@ -1,5 +1,6 @@
 package com.example.daina.service;
 
+import com.example.daina.entity.Monthly;
 import com.example.daina.entity.Page;
 import com.example.daina.entity.TimeRule;
 import com.example.daina.mapper.TimeRuleMapper;
@@ -43,4 +44,13 @@ public class TimeRuleService {
         return result;
     }
 
+    public List<TimeRule> getTimeRuleList(String parkingLotId) {
+        List<TimeRule> timeRules = timeRuleMapper.getTimeRuleList(parkingLotId);
+        return timeRules;
+    }
+
+    public TimeRule getTimeRuleById(String timeRuleId) {
+        TimeRule timeRule = timeRuleMapper.getTimeRuleById(timeRuleId);
+        return timeRule;
+    }
 }
