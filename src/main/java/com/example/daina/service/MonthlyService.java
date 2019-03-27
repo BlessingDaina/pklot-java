@@ -22,9 +22,16 @@ public class MonthlyService {
     public Page<Monthly> getMonthlyListByPage(Integer pageNum,
                                               Integer pageSize,
                                               String parkingLotId,
-                                              String searchInfo) {
+                                              String searchInfo,
+                                              String monthlyType) {
+        String tag = new String("all");
+        List<Monthly> monthlies;
         PageHelper.startPage(pageNum, pageSize);
-        List<Monthly> monthlies = monthlyMapper.getMonthlyListByPage(parkingLotId, searchInfo);
+        if (monthlyType.equals(tag)) {
+            monthlies = monthlyMapper.getMonthlyListByPage(parkingLotId, searchInfo);
+        } else {
+            monthlies = monthlyMapper.getMonthlyListByPageByType(parkingLotId, searchInfo, monthlyType);
+        }
         Integer count = monthlyMapper.getMonthlyCount(parkingLotId, searchInfo);
         Page<Monthly> pageData = new Page<>(pageNum, pageSize, count);
         pageData.setItems(monthlies);

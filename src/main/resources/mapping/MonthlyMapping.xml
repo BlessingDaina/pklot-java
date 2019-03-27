@@ -30,6 +30,7 @@
         <result column="monthly_space" jdbcType="VARCHAR" property="monthlySpace"/>
         <result column="category_id" jdbcType="VARCHAR" property="categoryId"/>
         <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+        <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
     </resultMap>
     <insert id="addMonthly">
         <selectKey keyProperty="monthlyId" resultType="String" order="BEFORE">
@@ -48,10 +49,45 @@
             category_id   = #{categoryId}, remarks = #{remarks}
         WHERE monthly_id = #{monthlyId}
     </update>
+    <select id="getMonthlyListByPageByType" resultMap="returnMap">
+        SELECT
+            monthly_id,
+            m.parkinglot_id,
+            room_number,
+            owner_name,
+            phone,
+            monthly_type,
+            timerule_id,
+            car_license,
+            occupy_num,
+            monthly_amount,
+            monthly_space,
+            remarks,
+            c.category_name
+        FROM park_monthly m LEFT JOIN park_car_category c ON m.category_id = c.category_id
+        WHERE m.parkinglot_id = #{parkingLotId} AND monthly_type = #{monthlyType} AND
+              (room_number LIKE CONCAT('%', #{searchInfo}, '%') OR
+               owner_name LIKE CONCAT('%', #{searchInfo}, '%') OR
+               car_license LIKE CONCAT('%', #{searchInfo}, '%') OR
+               monthly_space LIKE CONCAT('%', #{searchInfo}, '%'))
+    </select>
     <select id="getMonthlyListByPage" resultMap="returnMap">
-        SELECT *
-        FROM park_monthly
-        WHERE parkinglot_id = #{parkingLotId} AND
+        SELECT
+            monthly_id,
+            m.parkinglot_id,
+            room_number,
+            owner_name,
+            phone,
+            monthly_type,
+            timerule_id,
+            car_license,
+            occupy_num,
+            monthly_amount,
+            monthly_space,
+            remarks,
+            c.category_name
+        FROM park_monthly m LEFT JOIN park_car_category c ON m.category_id = c.category_id
+        WHERE m.parkinglot_id = #{parkingLotId} AND
               (room_number LIKE CONCAT('%', #{searchInfo}, '%') OR
                owner_name LIKE CONCAT('%', #{searchInfo}, '%') OR
                car_license LIKE CONCAT('%', #{searchInfo}, '%') OR

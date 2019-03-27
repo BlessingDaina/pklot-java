@@ -38,8 +38,9 @@ public class MonthlyController {
     public Result getMonthlyListByPage(@RequestParam("pageNum") Integer pageNum,
                                        @RequestParam("pageSize") Integer pageSize,
                                        @RequestParam("parkingLotId") String parkingLotId,
-                                       @RequestParam("searchInfo") String searchInfo) {
-        Page<Monthly> monthlyPage = monthlyService.getMonthlyListByPage(pageNum, pageSize, parkingLotId, searchInfo);
+                                       @RequestParam("searchInfo") String searchInfo,
+                                       @RequestParam("monthlyType") String monthlyType) {
+        Page<Monthly> monthlyPage = monthlyService.getMonthlyListByPage(pageNum, pageSize, parkingLotId, searchInfo, monthlyType);
         return ResultUtil.success(monthlyPage);
     }
 
