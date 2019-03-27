@@ -76,12 +76,32 @@ public interface MonthlyCarMapper {
 
     /**
      * 功能描述:
-     * 〈删除包月用户车辆〉
+     * 〈通过monthlyCarId删除包月用户车辆〉
      *
      * @param monthlyCarId 1
      * @return : java.lang.Integer
      * @author : daina
      * @date : 2019/3/26 17:51
      */
-    Integer deleteMonthlyCar(@Param("monthlyCarId") String monthlyCarId);
+    Integer deleteMonthlyCarById(@Param("monthlyCarId") String monthlyCarId);
+
+    /**
+     * 功能描述:
+     * 〈通过monthlyId删除包月用户车〉
+     * @param monthlyId 1
+     * @return : java.lang.Integer
+     * @author : daina
+     * @date : 2019/3/27 10:36
+     */
+    Integer deleteMonthlyCarByMonthlyId(@Param("monthlyId")String monthlyId);
+
+    /**
+     * 功能描述:
+     * 〈根据monthlyId获取包月用户车辆类别〉
+     * @param monthlyId 1
+     * @return : java.util.List<com.example.daina.entity.MonthlyCar>
+     * @author : daina
+     * @date : 2019/3/27 11:02
+     */
+    List<MonthlyCar> getMonthlyCarList(@Param("monthlyId")String monthlyId);
 }

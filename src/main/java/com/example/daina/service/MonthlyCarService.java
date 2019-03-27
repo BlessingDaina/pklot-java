@@ -47,7 +47,17 @@ public class MonthlyCarService {
     }
 
     public Integer deleteMonthlyCar(String monthlyCarId) {
-        Integer result = monthlyCarMapper.deleteMonthlyCar(monthlyCarId);
+        Integer result = monthlyCarMapper.deleteMonthlyCarById(monthlyCarId);
         return result;
+    }
+
+    public Integer deleteMonthlyCarByMonthlyId(String monthlyId) {
+        Integer result = monthlyCarMapper.deleteMonthlyCarByMonthlyId(monthlyId);
+        return result;
+    }
+
+    public List<MonthlyCar> getMonthlyCarList(String monthlyId) {
+        List<MonthlyCar> monthlyCars= monthlyCarMapper.getMonthlyCarList(monthlyId);
+        return monthlyCars;
     }
 }

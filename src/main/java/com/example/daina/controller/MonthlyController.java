@@ -5,6 +5,7 @@ import com.example.daina.entity.Monthly;
 import com.example.daina.entity.MonthlyOccupy;
 import com.example.daina.entity.Page;
 import com.example.daina.entity.Result;
+import com.example.daina.service.MonthlyCarService;
 import com.example.daina.service.MonthlyOccupyService;
 import com.example.daina.service.MonthlyService;
 import com.example.daina.utils.ResultUtil;
@@ -29,6 +30,8 @@ public class MonthlyController {
     MonthlyService monthlyService;
     @Autowired
     MonthlyOccupyService monthlyOccupyService;
+    @Autowired
+    MonthlyCarService monthlyCarService;
 
     @UserLoginToken
     @RequestMapping(value = "/getMonthlyListByPage")
@@ -63,7 +66,7 @@ public class MonthlyController {
             setOccupyNum.setOccupyNum(occupyNum);
             setOccupyNum.setMonthlyId(monthlyId);
             monthlyService.updateOccupyNum(setOccupyNum);
-            return ResultUtil.success("true");
+            return ResultUtil.success(monthlyId);
         } else {
             return ResultUtil.error(500, "添加失败");
         }
@@ -75,6 +78,7 @@ public class MonthlyController {
         Integer result = monthlyService.deleteMonthly(monthlyId);
         if (result != 0) {
             monthlyOccupyService.deleteMonthlyOccupy(monthlyId);
+            monthlyCarService.deleteMonthlyCarByMonthlyId(monthlyId);
             return ResultUtil.success(result);
         } else {
             return ResultUtil.error(500, "删除失败");

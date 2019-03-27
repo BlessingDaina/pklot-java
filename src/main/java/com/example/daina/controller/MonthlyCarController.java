@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @author: Daina
  * @description:
@@ -44,7 +46,11 @@ public class MonthlyCarController {
         String carLicense = monthly.getCarLicense();
         Integer result = monthlyCarService.addMonthlyCar(monthlyCar);
         if (result != 0) {
-            carLicense +=',' + monthlyCar.getCarLicense();
+            if (carLicense == null || carLicense.length() == 0) {
+                carLicense = monthlyCar.getCarLicense();
+            } else {
+                carLicense +=',' + monthlyCar.getCarLicense();
+            }
             monthly.setCarLicense(carLicense);
             Integer updateMonthly = monthlyService.updateMonthly(monthly);
             return ResultUtil.success(result);
@@ -57,6 +63,18 @@ public class MonthlyCarController {
     @RequestMapping(value = "/updateMonthlyCar")
     public Result updateMonthlyCar(MonthlyCar monthlyCar) {
         Integer result = monthlyCarService.updateMonthlyCar(monthlyCar);
+        List<MonthlyCar> monthlyCars = monthlyCarService.getMonthlyCarList(monthlyCar.getMonthlyId());
+        String carLicense = new String();
+        Monthly monthly = monthlyService.getMonthlyById(monthlyCar.getMonthlyId());
+        for (MonthlyCar monthlyCar1 : monthlyCars) {
+            if (carLicense == null || carLicense.length() == 0) {
+                carLicense = monthlyCar1.getCarLicense();
+            } else {
+                carLicense += ',' + monthlyCar1.getCarLicense();
+            }
+        }
+        monthly.setCarLicense(carLicense);
+        monthlyService.updateMonthly(monthly);
         return ResultUtil.success(result);
     }
 

@@ -24,6 +24,11 @@
         WHERE monthly_id = #{monthlyId} AND
               car_license LIKE CONCAT('%', #{searchInfo}, '%')
     </select>
+    <select id="getMonthlyCarList" resultMap="BaseResultMap">
+        SELECT *
+        FROM park_monthly_car
+        WHERE monthly_id = #{monthlyId}
+    </select>
     <select id="getMonthlyCarCount" resultType="Integer">
         SELECT COUNT(*)
         FROM park_monthly_car
@@ -47,8 +52,12 @@
         FROM park_monthly_car
         WHERE car_license = #{carLicense} AND parkinglot_id = #{parkingLotId}
     </select>
-    <delete id="deleteMonthlyCar">
+    <delete id="deleteMonthlyCarById">
         DELETE FROM park_monthly_car
         WHERE monthly_car_id = #{monthlyCarId}
+    </delete>
+    <delete id="deleteMonthlyCarByMonthlyId">
+        DELETE FROM park_monthly_car
+        WHERE monthly_id = #{monthlyId}
     </delete>
 </mapper>
