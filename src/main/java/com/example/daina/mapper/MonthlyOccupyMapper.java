@@ -48,6 +48,16 @@ public interface MonthlyOccupyMapper {
 
     /**
      * 功能描述:
+     * 〈批量更新包月占位信息〉
+     * @param monthlyOccupyList 1
+     * @return : java.lang.Integer
+     * @author : daina
+     * @date : 2019/3/27 9:56
+     */
+    Integer updateMonthlyOccupy(List<MonthlyOccupy> monthlyOccupyList);
+
+    /**
+     * 功能描述:
      * 〈通过monthlyId获取占位信息〉
      * @param monthlyId 1
      * @return : java.util.List<com.example.daina.entity.MonthlyOccupy>
@@ -56,5 +66,13 @@ public interface MonthlyOccupyMapper {
      */
     List<MonthlyOccupy> getOccupyByMonthlyId(@Param("monthlyId")String monthlyId);
 
+    /**
+     * 功能描述:
+     * 〈删除包月占位信息〉
+     * @param monthlyId 1
+     * @return : java.lang.Integer
+     * @author : daina
+     * @date : 2019/3/27 9:55
+     */
     Integer deleteMonthlyOccupy(@Param("monthlyId")String monthlyId);
 }

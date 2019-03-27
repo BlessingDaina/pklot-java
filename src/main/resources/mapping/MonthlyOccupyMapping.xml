@@ -48,8 +48,22 @@
             )
         </foreach>
     </insert>
+    <update id="updateMonthlyOccupy" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE park_monthly_occupy
+            <set>
+                occupy_type=#{item.occupyType},
+                occupy_num=#{item.occupyNum}
+            </set>
+            <where>
+                occupy_id = #{item.occupyId}
+            </where>
+        </foreach>
+    </update>
     <select id="getOccupyByMonthlyId" resultMap="BaseResultMap">
-        SELECT * FROM park_monthly_occupy WHERE monthly_id = #{monthlyId}
+        SELECT *
+        FROM park_monthly_occupy
+        WHERE monthly_id = #{monthlyId}
     </select>
     <delete id="deleteMonthlyOccupy">
         DELETE FROM park_monthly_occupy

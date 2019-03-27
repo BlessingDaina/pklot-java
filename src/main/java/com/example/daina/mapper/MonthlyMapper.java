@@ -66,4 +66,24 @@ public interface MonthlyMapper {
      * @date : 2019/3/26 17:06
      */
     Integer deleteMonthly(@Param("monthlyId")String monthlyId);
+
+    /**
+     * 功能描述:
+     * 〈根据包月id查询包月用户〉
+     * @param monthlyId 1
+     * @return : com.example.daina.entity.Monthly
+     * @author : daina
+     * @date : 2019/3/27 9:31
+     */
+    Monthly getMonthlyById(@Param("monthlyId")String monthlyId);
+
+    /**
+     * 功能描述:
+     * 〈根据id修改包月信息〉
+     * @param monthly 1
+     * @return : java.lang.Integer
+     * @author : daina
+     * @date : 2019/3/27 9:39
+     */
+    Integer updateMonthly(Monthly monthly);
 }

@@ -39,12 +39,21 @@ public class MonthlyService {
 
     public Integer updateOccupyNum(Monthly monthly) {
         Integer result = monthlyMapper.updateOccupyNum(monthly);
-        System.out.println(result);
         return result;
     }
 
     public Integer deleteMonthly(String monthlyId) {
         Integer result = monthlyMapper.deleteMonthly(monthlyId);
+        return result;
+    }
+
+    public Monthly getMonthlyById(String monthlyId) {
+        Monthly monthly = monthlyMapper.getMonthlyById(monthlyId);
+        return monthly;
+    }
+
+    public Integer updateMonthly(Monthly monthly) {
+        Integer result = monthlyMapper.updateMonthly(monthly);
         return result;
     }
 }

@@ -20,8 +20,6 @@ public class MonthlyOccupyService {
 
     public List<Map<String, Object>> getMonthlyOccupy(String parkingLotId, String monthlyId) {
         List<Map<String, Object>> monthlyOccupies;
-        System.out.println(monthlyId);
-        System.out.println(monthlyId.length() == 0);
         if (monthlyId == null || monthlyId.length() == 0) {
             monthlyOccupies = monthlyOccupyMapper.addGetMonthlyOccupy(parkingLotId);
         } else {
@@ -32,6 +30,11 @@ public class MonthlyOccupyService {
 
     public Integer addMonthlyOccupy(List<MonthlyOccupy> monthlyOccupyList) {
         Integer result = monthlyOccupyMapper.addMonthlyOccupy(monthlyOccupyList);
+        return result;
+    }
+
+    public Integer updateMonthlyOccupy(List<MonthlyOccupy> monthlyOccupyList) {
+        Integer result = monthlyOccupyMapper.updateMonthlyOccupy(monthlyOccupyList);
         return result;
     }
 

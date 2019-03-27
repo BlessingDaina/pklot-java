@@ -40,6 +40,14 @@
         VALUES (#{monthlyId}, #{parkingLotId}, #{roomNumber}, #{ownerName}, #{phone}, #{monthlyType},
         #{timeRuleId}, #{carLicense}, #{occupyNum}, #{monthlyAmount}, #{monthlySpace}, #{categoryId}, #{remarks})
     </insert>
+    <update id="updateMonthly">
+        UPDATE park_monthly
+        SET room_number   = #{roomNumber}, owner_name = #{ownerName}, phone = #{phone}, monthly_type = #{monthlyType},
+            timerule_id   = #{timeRuleId}, car_license = #{carLicense}, monthly_amount = #{monthlyAmount},
+            monthly_space = #{monthlySpace}, occupy_num = #{occupyNum},
+            category_id   = #{categoryId}, remarks = #{remarks}
+        WHERE monthly_id = #{monthlyId}
+    </update>
     <select id="getMonthlyListByPage" resultMap="returnMap">
         SELECT *
         FROM park_monthly
@@ -67,4 +75,9 @@
         DELETE FROM park_monthly
         WHERE monthly_id = #{monthlyId}
     </delete>
+    <select id="getMonthlyById" resultMap="BaseResultMap">
+        SELECT *
+        FROM park_monthly
+        WHERE monthly_id = #{monthlyId}
+    </select>
 </mapper>

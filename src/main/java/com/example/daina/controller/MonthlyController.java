@@ -49,10 +49,7 @@ public class MonthlyController {
         String parkingLotId = monthly.getParkingLotId();
         JSONArray occupyArray = JSONArray.fromObject(monthly.getOccupyList());
         List<MonthlyOccupy> monthlyOccupies = (List<MonthlyOccupy>) JSONArray.toCollection(occupyArray, MonthlyOccupy.class);
-        System.out.println(monthly);
-        System.out.println(monthlyOccupies);
         for (MonthlyOccupy monthlyOccupy : monthlyOccupies) {
-            System.out.println(monthlyOccupy);
             monthlyOccupy.setMonthlyId(monthlyId);
             monthlyOccupy.setParkingLotId(parkingLotId);
         }
@@ -82,5 +79,24 @@ public class MonthlyController {
         } else {
             return ResultUtil.error(500, "删除失败");
         }
+    }
+
+    @UserLoginToken
+    @RequestMapping(value = "/updateMonthlyAndOccupy")
+    public Result updateMonthly(Monthly monthly) {
+        List<MonthlyOccupy> occupyNums;
+        JSONArray occupyArray = JSONArray.fromObject(monthly.getOccupyList());
+        List<MonthlyOccupy> monthlyOccupies = (List<MonthlyOccupy>) JSONArray.toCollection(occupyArray, MonthlyOccupy.class);
+        Integer updateOccupy = monthlyOccupyService.updateMonthlyOccupy(monthlyOccupies);
+        if (updateOccupy != 0) {
+            Integer occupyNum = 0;
+            occupyNums = monthlyOccupyService.getOccupyByMonthlyId(monthly.getMonthlyId());
+            for (MonthlyOccupy monthlyOccupy : occupyNums) {
+                occupyNum += monthlyOccupy.getOccupyNum();
+            }
+            monthly.setOccupyNum(occupyNum);
+        }
+        Integer result = monthlyService.updateMonthly(monthly);
+        return ResultUtil.success(result);
     }
 }
