@@ -37,7 +37,7 @@
     </select>
     <insert id="addMonthlyCar">
         <selectKey keyProperty="monthlyCarId" resultType="String" order="BEFORE">
-            SELECT replace(uuid(),'-','') AS userId FROM dual
+            SELECT replace(uuid(),'-','') AS monthlyCarId
         </selectKey>
         INSERT INTO park_monthly_car(monthly_car_id, monthly_id,parkinglot_id, car_license, start_date, end_date)
         VALUES (#{monthlyCarId}, #{monthlyId},#{parkingLotId}, #{carLicense}, #{startDate}, #{endDate})
@@ -46,6 +46,17 @@
         UPDATE park_monthly_car
         SET car_license = #{carLicense}, start_date = #{startDate}, end_date = #{endDate}
         WHERE monthly_car_id = #{monthlyCarId}
+    </update>
+    <update id="updateMonthlyCarList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE park_monthly_car
+            <set>
+                end_date=#{item.endDate}
+            </set>
+            <where>
+                monthly_car_id = #{item.monthlyCarId}
+            </where>
+        </foreach>
     </update>
     <select id="getIsUsedMonthlyCarLicense" resultType="Integer">
         SELECT COUNT(*)

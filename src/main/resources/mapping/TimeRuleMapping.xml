@@ -65,7 +65,7 @@
     </resultMap>
     <insert id="addTimeRule">
         <selectKey keyProperty="timeRuleId" resultType="String" order="BEFORE">
-            SELECT replace(uuid(),'-','') AS userId FROM dual
+            SELECT replace(uuid(),'-','') AS timeRuleId
         </selectKey>
         INSERT INTO park_monthly_timerule(timerule_id, parkinglot_id, timerule_name, timerule_option, monday, tuesday,
         wednesday, thursday, friday, saturday, sunday, time_start1, time_end1, time_start2, time_end2, time_start3,

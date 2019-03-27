@@ -51,7 +51,7 @@
     </select>
     <insert id="addTempCar">
         <selectKey keyProperty="tempCarId" resultType="String" order="BEFORE">
-            SELECT replace(uuid(),'-','') AS userId FROM dual
+            SELECT replace(uuid(),'-','') AS tempCarId
         </selectKey>
         INSERT INTO park_tempcar(tempcar_id, parkinglot_id, category_id, car_license, remarks)
         VALUES (#{tempCarId}, #{parkingLotId}, #{categoryId}, #{carLicense}, #{remarks})

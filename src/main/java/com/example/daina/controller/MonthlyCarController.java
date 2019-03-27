@@ -92,4 +92,11 @@ public class MonthlyCarController {
         Integer result = monthlyCarService.deleteMonthlyCar(monthlyCarId);
         return ResultUtil.success(result);
     }
+
+    @UserLoginToken
+    @RequestMapping(value = "/getMonthlyCarList")
+    public Result getMonthlyCarList(@RequestParam("monthlyId")String monthlyId) {
+        List<MonthlyCar> monthlyCars = monthlyCarService.getMonthlyCarList(monthlyId);
+        return ResultUtil.success(monthlyCars);
+    }
 }

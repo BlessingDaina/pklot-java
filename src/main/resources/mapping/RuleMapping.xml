@@ -43,7 +43,7 @@
     </select>
     <insert id="addChargeRule">
         <selectKey keyProperty="ruleId" resultType="String" order="BEFORE">
-            SELECT replace(uuid(),'-','') AS ruleId FROM dual
+            SELECT replace(uuid(),'-','') AS ruleId
         </selectKey>
         INSERT INTO park_charge_rules(rule_id, parkinglot_id, rule_name, parking_type, license_color, car_type,
         valuation_type, time_type, default_price, free_time, first_price, first_time,

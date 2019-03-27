@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.daina.mapper.MonthlyExtendMapper">
+    <resultMap id="BaseResultMap" type="com.example.daina.entity.MonthlyExtend">
+        <id column="extend_id" jdbcType="VARCHAR" property="extendId"/>
+        <result column="parkinglot_id" jdbcType="VARCHAR" property="parkingLotId"/>
+        <result column="monthly_id" jdbcType="VARCHAR" property="monthlyId"/>
+        <result column="extend_date" jdbcType="VARCHAR" property="extendDate"/>
+        <result column="monthly_type" jdbcType="INTEGER" property="monthlyType"/>
+        <result column="expdate_type" jdbcType="INTEGER" property="expdateType"/>
+        <result column="expdate_start" jdbcType="VARCHAR" property="expdateStart"/>
+        <result column="expdate_end" jdbcType="VARCHAR" property="expdateEnd"/>
+        <result column="amount_receivable" jdbcType="DECIMAL" property="amountReceivable"/>
+        <result column="amount_collected" jdbcType="DECIMAL" property="amountCollected"/>
+    </resultMap>
+    <insert id="addMonthlyExtend">
+        <selectKey keyProperty="extendId" resultType="String" order="BEFORE">
+            SELECT replace(uuid(),'-','') AS extendId
+        </selectKey>
+        INSERT INTO park_monthly_extend(extend_id, parkinglot_id, monthly_id,extend_date, monthly_type, expdate_type,
+        expdate_start,expdate_end, amount_receivable, amount_collected)
+        VALUES (#{extendId}, #{parkingLotId}, #{monthlyId}, #{extendDate}, #{monthlyType}, #{expdateType},
+        #{expdateStart}, #{expdateEnd}, #{amountReceivable}, #{amountCollected})
+    </insert>
+</mapper>

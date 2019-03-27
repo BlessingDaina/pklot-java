@@ -33,7 +33,7 @@
     </resultMap>
     <insert id="addMonthly">
         <selectKey keyProperty="monthlyId" resultType="String" order="BEFORE">
-            SELECT replace(uuid(),'-','') AS userId FROM dual
+            SELECT replace(uuid(),'-','') AS monthlyId FROM dual
         </selectKey>
         INSERT INTO park_monthly(monthly_id, parkinglot_id, room_number, owner_name, phone, monthly_type,
         timerule_id, car_license, occupy_num, monthly_amount, monthly_space, category_id, remarks)

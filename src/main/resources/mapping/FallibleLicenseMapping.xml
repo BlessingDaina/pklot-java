@@ -28,7 +28,7 @@
     </select>
     <insert id="addFallibleLicense">
         <selectKey keyProperty="fallibleId" resultType="String" order="BEFORE">
-            SELECT replace(uuid(),'-','') AS userId FROM dual
+            SELECT replace(uuid(),'-','') AS fallibleId
         </selectKey>
         INSERT INTO park_fallible_license(fallible_id, parkinglot_id, error_license, true_license, remarks)
         VALUES (#{fallibleId}, #{parkingLotId}, #{errorLicense}, #{trueLicense}, #{remarks})

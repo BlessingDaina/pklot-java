@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.daina.mapper.MonthlyCarTmpMapper">
+    <resultMap id="BaseResultMap" type="com.example.daina.entity.MonthlyCarTmp">
+        <result column="guid" jdbcType="VARCHAR" property="guid"/>
+        <result column="parkinglot_id" jdbcType="VARCHAR" property="parkingLotId"/>
+        <result column="monthly_id" jdbcType="VARCHAR" property="monthlyId"/>
+        <result column="monthly_car_id" jdbcType="VARCHAR" property="monthlyCarId"/>
+        <result column="car_license" jdbcType="VARCHAR" property="carLicense"/>
+        <result column="start_date" jdbcType="INTEGER" property="startDate"/>
+        <result column="end_date" jdbcType="INTEGER" property="endDate"/>
+    </resultMap>
+    <insert id="addMonthlyCarTmp" parameterType="java.util.List">
+        INSERT INTO park_monthly_car_tmp(guid, parkinglot_id, monthly_id, monthly_car_id, car_license, start_date,
+        end_date)VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.guid},
+            #{item.parkingLotId},
+            #{item.monthlyId},
+            #{item.monthlyCarId},
+            #{item.carLicense},
+            #{item.startDate},
+            #{item.endDate}
+            )
+        </foreach>
+    </insert>
+    <delete id="deleteMonthlyCarTmp">
+        DELETE FROM park_monthly_car_tmp
+        WHERE guid = #{guid}
+    </delete>
+    <delete id="deleteAllMonthlyCarTmp">
+        DELETE FROM park_monthly_car_tmp
+    </delete>
+    <select id="getMonthlyCarTmpList" resultMap="BaseResultMap">
+        SELECT *
+        FROM park_monthly_car_tmp
+        WHERE guid = #{guid}
+    </select>
+</mapper>

@@ -46,7 +46,7 @@
     </select>
     <insert id="addUser">
         <selectKey keyProperty="userId" resultType="String" order="BEFORE">
-            SELECT replace(uuid(),'-','') AS userId FROM dual
+            SELECT replace(uuid(),'-','') AS userId
         </selectKey>
         INSERT INTO sys_user(user_id, user_name, login_name, login_pwd, phone, role_id)
         VALUES (#{userId}, #{userName}, #{loginName}, #{loginPwd}, #{phone}, #{roleId})

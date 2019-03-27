@@ -104,4 +104,14 @@ public interface MonthlyCarMapper {
      * @date : 2019/3/27 11:02
      */
     List<MonthlyCar> getMonthlyCarList(@Param("monthlyId")String monthlyId);
+
+    /**
+     * 功能描述:
+     * 〈批量更新包月用户车辆〉
+     * @param monthlyCarList 1
+     * @return : java.lang.Integer
+     * @author : daina
+     * @date : 2019/3/27 14:02
+     */
+    Integer updateMonthlyCarList(List<MonthlyCar> monthlyCarList);
 }

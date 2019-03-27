@@ -60,4 +60,9 @@ public class MonthlyCarService {
         List<MonthlyCar> monthlyCars= monthlyCarMapper.getMonthlyCarList(monthlyId);
         return monthlyCars;
     }
+
+    public Integer updateMonthlyCarList(List<MonthlyCar> monthlyCarList) {
+        Integer result = monthlyCarMapper.updateMonthlyCarList(monthlyCarList);
+        return result;
+    }
 }
