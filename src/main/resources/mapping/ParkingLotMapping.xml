@@ -26,6 +26,7 @@
         <result column="free_start_time" jdbcType="VARCHAR" property="freeStartTime"/>
         <result column="free_end_time" jdbcType="VARCHAR" property="freeEndTime"/>
         <result column="del_flag" jdbcType="INTEGER" property="delFlag"/>
+        <result column="unit_id" jdbcType="VARCHAR" property="unitId"/>
     </resultMap>
 
     <select id="getParkingLotByPage" resultMap="BaseResultMap">
@@ -53,4 +54,9 @@
         SET ${key} = ${value}
         WHERE parkinglot_id = ${parkingLotId}
     </update>
+    <select id="getParkingLotByUnitId" resultMap="BaseResultMap">
+        SELECT *
+        FROM parking_parkinglot
+        WHERE unit_id = #{unitId}
+    </select>
 </mapper>

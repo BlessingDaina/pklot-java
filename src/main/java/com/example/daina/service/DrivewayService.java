@@ -46,4 +46,9 @@ public class DrivewayService {
         Integer result = drivewayMapper.updateDrivewayStatus(drivewayId, drivewayStatus);
         return result;
     }
+
+    public List<Driveway> getDrivewayListByParkId(String parkingLotId) {
+        List<Driveway> driveways = drivewayMapper.getDrivewayListByParkId(parkingLotId);
+        return driveways;
+    }
 }

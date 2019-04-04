@@ -32,6 +32,7 @@ public class ParkingLot {
     private String freeStartTime;
     private String freeEndTime;
     private Integer delFlag;
+    private String unitId;
 
     public String getParkingLotId() {
         return parkingLotId;
@@ -223,5 +224,13 @@ public class ParkingLot {
 
     public void setDelFlag(Integer delFlag) {
         this.delFlag = delFlag;
+    }
+
+    public String getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(String unitId) {
+        this.unitId = unitId;
     }
 }

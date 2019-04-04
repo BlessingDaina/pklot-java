@@ -84,4 +84,10 @@ public class UserController {
         Integer result = userService.updateStatus(user);
         return ResultUtil.success(result);
     }
+
+    @RequestMapping(value = "/sentry/findUserByUserId")
+    public Result findUserByUserId(@RequestParam("userId")String userId) {
+        User user = userService.findUserById(userId);
+        return ResultUtil.success(user);
+    }
 }

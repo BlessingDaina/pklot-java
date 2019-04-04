@@ -42,4 +42,9 @@ public class ParkingLotService {
         Integer result = parkingLotMapper.updateManagement(key, value, parkingLotId);
         return result;
     }
+
+    public List<ParkingLot> getParkingLotByUnitId(String unitId) {
+        List<ParkingLot> parkingLots = parkingLotMapper.getParkingLotByUnitId(unitId);
+        return parkingLots;
+    }
 }

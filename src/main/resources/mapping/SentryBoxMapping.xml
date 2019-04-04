@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.daina.mapper.SentryBoxMapper">
+    <resultMap id="BaseResultMap" type="com.example.daina.entity.SentryBox">
+        <id column="sentrybox_id" jdbcType="VARCHAR" property="sentryBoxId"/>
+        <result column="parkinglot_id" jdbcType="VARCHAR" property="parkingLotId" />
+        <result column="passageway_id" jdbcType="VARCHAR" property="passagewayId" />
+        <result column="sentrybox_name" jdbcType="VARCHAR" property="sentryBoxName"/>
+        <result column="duty_user_id" jdbcType="VARCHAR" property="dutyUserId" />
+    </resultMap>
+    <select id="getSentry" resultMap="BaseResultMap">
+        SELECT * FROM park_sentrybox WHERE parkinglot_id =#{parkingLotId}
+    </select>
+</mapper>

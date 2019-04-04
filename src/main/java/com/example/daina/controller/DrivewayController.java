@@ -18,13 +18,13 @@ import java.util.List;
  * @date: Created in 15:02 2019/3/23
  */
 @RestController
-@RequestMapping(value = "/api/pklot")
+@RequestMapping(value = "/api")
 public class DrivewayController {
     @Autowired
     DrivewayService drivewayService;
 
     @UserLoginToken
-    @RequestMapping(value = "/getDrivewayList")
+    @RequestMapping(value = "/pklot/getDrivewayList")
     public Result getDrivewayList(@RequestParam("parkingLotId")String parkingLotId,
                                   @RequestParam("drivewayName")String drivewayName) {
         List<Driveway> driveways = drivewayService.getDrivewayList(parkingLotId, drivewayName);
@@ -32,7 +32,7 @@ public class DrivewayController {
     }
 
     @UserLoginToken
-    @RequestMapping(value = "/getDrivewayListByType")
+    @RequestMapping(value = "/pklot/getDrivewayListByType")
     public Result getDrivewayListByType(@RequestParam("parkingLotId")String parkingLotId,
                                         @RequestParam("drivewayName")String drivewayName,
                                         @RequestParam("drivewayType")String drivewayType) {
@@ -41,7 +41,7 @@ public class DrivewayController {
     }
 
     @UserLoginToken
-    @RequestMapping(value = "/getDrivewayListByStatus")
+    @RequestMapping(value = "/pklot/getDrivewayListByStatus")
     public Result getDrivewayListByStatus(@RequestParam("parkingLotId")String parkingLotId,
                                           @RequestParam("drivewayName")String drivewayName,
                                           @RequestParam("drivewayStatus")String drivewayStatus) {
@@ -50,24 +50,31 @@ public class DrivewayController {
     }
 
     @UserLoginToken
-    @RequestMapping(value = "/getDrivewayInfo")
+    @RequestMapping(value = "/pklot/getDrivewayInfo")
     public Result getDrivewayInfo(@RequestParam("drivewayId")String drivewayId) {
         Driveway driveway = drivewayService.getDrivewayInfo(drivewayId);
         return ResultUtil.success(driveway);
     }
 
     @UserLoginToken
-    @RequestMapping(value = "/updateDriveway")
+    @RequestMapping(value = "/pklot/updateDriveway")
     public Result updateDriveway(Driveway driveway) {
         Integer result = drivewayService.updateDriveway(driveway);
         return ResultUtil.success(result);
     }
 
     @UserLoginToken
-    @RequestMapping(value = "/updateDrivewayStatus")
+    @RequestMapping(value = "/pklot/updateDrivewayStatus")
     public Result updateDrivewayStatus(@RequestParam("drivewayId")String drivewayId,
                                        @RequestParam("drivewayStatus")Integer drivewayStatus) {
         Integer result = drivewayService.updateDrivewayStatus(drivewayId, drivewayStatus);
         return ResultUtil.success(result);
+    }
+
+    @UserLoginToken
+    @RequestMapping(value = "/sentry/getDrivewayListByParkId")
+    public Result getDrivewayListByParkId(@RequestParam("parkingLotId")String parkingLotId) {
+        List<Driveway> driveways = drivewayService.getDrivewayListByParkId(parkingLotId);
+        return ResultUtil.success(driveways);
     }
 }

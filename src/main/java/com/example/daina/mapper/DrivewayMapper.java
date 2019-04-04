@@ -78,4 +78,14 @@ public interface DrivewayMapper {
      * @date : 2019/3/24 11:27
      */
     Integer updateDrivewayStatus(@Param("drivewayId") String drivewayId, @Param("drivewayStatus") Integer drivewayStatus);
+
+    /**
+     * 功能描述:
+     * 〈根据停车场id获取通道列表〉
+     * @param parkingLotId 1
+     * @return : java.util.List<com.example.daina.entity.Driveway>
+     * @author : daina
+     * @date : 2019/4/1 9:38
+     */
+    List<Driveway> getDrivewayListByParkId(@Param("parkingLotId") String parkingLotId);
 }

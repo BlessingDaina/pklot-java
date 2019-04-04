@@ -29,6 +29,16 @@
         <result column="driveway_status" jdbcType="INTEGER" property="drivewayStatus"/>
         <result column="parkinglot_name" jdbcType="VARCHAR" property="parkingLotName"/>
     </resultMap>
+    <select id="getDrivewayListByParkId" resultMap="returnMap">
+        SELECT
+        driveway_id,
+        driveway_name,
+        driveway_type,
+        driveway_status,
+        parkinglot_name
+        FROM park_driveway d LEFT JOIN parking_parkinglot p ON d.parkinglot_id = p.parkinglot_id
+        WHERE d.parkinglot_id = #{parkingLotId}
+    </select>
     <select id="getDrivewayList" resultMap="returnMap">
         SELECT
             driveway_id,

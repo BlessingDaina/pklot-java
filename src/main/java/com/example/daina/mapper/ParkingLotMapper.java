@@ -60,4 +60,14 @@ public interface ParkingLotMapper {
      * @date : 2019/3/24 11:22
      */
     Integer updateManagement(@Param("key") String key, @Param("value") String value, @Param("parkingLotId") String parkingLotId);
+
+    /**
+     * 功能描述:
+     * 〈通过unitId查询停车场〉
+     * @param unitId 1
+     * @return : java.util.List<com.example.daina.entity.ParkingLot>
+     * @author : daina
+     * @date : 2019/4/1 9:56
+     */
+    List<ParkingLot> getParkingLotByUnitId(@Param("unitId")String unitId);
 }
