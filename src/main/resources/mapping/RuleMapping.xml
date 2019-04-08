@@ -33,6 +33,7 @@
         <result column="limit_hour" jdbcType="VARCHAR" property="limitHour"/>
         <result column="limit_price" jdbcType="VARCHAR" property="limitPrice"/>
         <result column="del_flag" jdbcType="INTEGER" property="delFlag"/>
+        <result column="order_level" javaType="INTEGER" property="orderLevel"/>
     </resultMap>
     <select id="getChargeRuleList" resultMap="BaseResultMap">
         SELECT *
@@ -49,12 +50,12 @@
         valuation_type, time_type, default_price, free_time, first_price, first_time,
         after_price, after_time, day_start_time, day_end_time, day_first_price, day_first_time,
         day_after_price, day_after_time, day_limit,night_start_time, night_end_time, night_first_price,
-        night_first_time, night_after_price, night_after_time,night_limit, limit_hour, limit_price)
+        night_first_time, night_after_price, night_after_time,night_limit, limit_hour, limit_price, order_level)
         VALUES (#{ruleId},#{parkingLotId}, #{ruleName}, #{parkingType}, #{licenseColor}, #{carType}, #{valuationType},
         #{timeType}, #{defaultPrice}, #{freeTime}, #{firstPrice}, #{firstTime}, #{afterPrice},
         #{afterTime}, #{dayStartTime}, #{dayEndTime}, #{dayFirstPrice}, #{dayFirstTime}, #{dayAfterPrice},
         #{dayAfterTime}, #{dayLimit}, #{nightStartTime}, #{nightEndTime}, #{nightFirstPrice}, #{nightFirstTime},
-        #{nightAfterPrice}, #{nightAfterTime}, #{nightLimit}, #{limitHour}, #{limitPrice})
+        #{nightAfterPrice}, #{nightAfterTime}, #{nightLimit}, #{limitHour}, #{limitPrice}, #{orderLevel})
     </insert>
     <update id="updateChargeRule">
         UPDATE park_charge_rules
@@ -71,10 +72,44 @@
             night_first_time  = #{nightFirstTime}, night_after_price = #{nightAfterPrice},
             night_after_time  = #{nightAfterTime},
             night_limit       = #{nightLimit}, limit_hour = #{limitHour},
-            limit_price       = #{limitPrice}WHERE rule_id=#{ruleId} AND parkinglot_id=#{parkingLotId}
+            limit_price       = #{limitPrice},
+            order_level       = #{orderLevel}
+        WHERE rule_id = #{ruleId} AND parkinglot_id = #{parkingLotId}
     </update>
     <delete id="deleteChargeRule">
         DELETE FROM park_charge_rules
         WHERE rule_id = #{ruleId}
     </delete>
+    <select id="getRuleById" resultMap="BaseResultMap">
+        SELECT *
+        FROM park_charge_rules
+        WHERE rule_id = #{ruleId}
+    </select>
+    <select id="getNextOrderLevel" resultType="java.lang.Integer">
+        SELECT IFNULL(MAX(order_level), 0) + 1
+        FROM park_charge_rules
+        WHERE parkinglot_id = #{parkingLotId}
+    </select>
+    <select id="getLessOrderLevel" resultMap="BaseResultMap">
+        SELECT *
+        FROM park_charge_rules b
+        WHERE b.parkinglot_id = #{parkingLotId}
+        <![CDATA[   AND b.order_level < (SELECT a.order_level
+                                   FROM park_charge_rules a
+                                   WHERE a.rule_id = #{ruleId}) ]]>
+        AND b.del_flag = 0
+        ORDER BY b.order_level DESC
+        LIMIT 1;
+    </select>
+    <select id="getGreaterOrderLevel" resultMap="BaseResultMap">
+        SELECT *
+        FROM park_charge_rules b
+        WHERE b.parkinglot_id = #{parkingLotId}
+        <![CDATA[ AND b.order_level > (SELECT a.order_level
+                                   FROM park_charge_rules a
+                                   WHERE a.rule_id = #{ruleId}) ]]>
+        AND b.del_flag = 0
+        ORDER BY b.order_level
+        LIMIT 1;
+    </select>
 </mapper>

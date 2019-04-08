@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: Daina
@@ -49,4 +50,48 @@ public interface RuleMapper {
      * @date : 2019/3/24 11:23
      */
     Integer deleteChargeRule(@Param("ruleId")String ruleId);
+
+    /**
+     * 功能描述:
+     * 〈根据ruleId查询规则〉
+     * @param ruleId 1
+     * @return : com.example.daina.entity.Rule
+     * @author : daina
+     * @date : 2019/4/8 9:52
+     */
+    Rule getRuleById (@Param("ruleId")String ruleId);
+
+    /**
+     * 功能描述:
+     * 〈计费顺序最大值+1〉
+     * @param parkingLotId 1
+     * @return : java.lang.Integer
+     * @author : daina
+     * @date : 2019/4/8 10:03
+     */
+    Integer getNextOrderLevel(@Param("parkingLotId")String parkingLotId);
+
+    /**
+     * 功能描述:
+     * 〈获取小于当前项的第一条数据〉
+     * @param parkingLotId 1
+     * @param ruleId 2
+     * @return : com.example.daina.entity.Rule
+     * @author : daina
+     * @date : 2019/4/8 10:22
+     */
+    Rule getLessOrderLevel(@Param("parkingLotId")String parkingLotId,
+                                          @Param("ruleId")String ruleId);
+
+    /**
+     * 功能描述:
+     * 〈获取大于当前项的第一条数据〉
+     * @param parkingLotId 1
+     * @param ruleId 2
+     * @return : com.example.daina.entity.Rule
+     * @author : daina
+     * @date : 2019/4/8 10:35
+     */
+    Rule getGreaterOrderLevel(@Param("parkingLotId")String parkingLotId,
+                              @Param("ruleId")String ruleId);
 }

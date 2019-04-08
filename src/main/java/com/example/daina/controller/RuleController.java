@@ -33,6 +33,9 @@ public class RuleController {
     @UserLoginToken
     @RequestMapping(value = "/addChargeRule")
     public Result addChargeRule(Rule rule) {
+        Integer orderLevel = ruleService.getNextOrderLevel(rule.getParkingLotId());
+        System.out.println(orderLevel);
+        rule.setOrderLevel(orderLevel);
         Integer result = ruleService.addChargeRule(rule);
         return ResultUtil.success(result);
     }
@@ -49,5 +52,37 @@ public class RuleController {
     public Result deleteChargeRule(@RequestParam("ruleId")String ruleId) {
         Integer result = ruleService.deleteChargeRule(ruleId);
         return ResultUtil.success(result);
+    }
+
+    @UserLoginToken
+    @RequestMapping(value = "/updateChargeRuleOrderLevel")
+    public Result updateChargeRuleOrderLevel(@RequestParam("parkingLotId")String parkingLotId,
+                                             @RequestParam("ruleId")String ruleId,
+                                             @RequestParam("direction")String direction) {
+        Rule rule = ruleService.getRuleById(ruleId);
+        Integer currentLevel = rule.getOrderLevel();
+        if ("0".equals(direction)) {
+            Rule less = ruleService.getLessOrderLevel(parkingLotId, ruleId);
+            if (less == null) {
+                return ResultUtil.error(500, "已经是最上级了");
+            }
+            Integer lessOrderLevel = less.getOrderLevel();
+            rule.setOrderLevel(lessOrderLevel);
+            ruleService.updateChargeRule(rule);
+            less.setOrderLevel(currentLevel);
+            ruleService.updateChargeRule(less);
+        }
+        if ("1".equals(direction)) {
+            Rule greater = ruleService.getGreaterOrderLevel(parkingLotId, ruleId);
+            if (greater == null) {
+                return ResultUtil.error(500,"已经是最下级了");
+            }
+            Integer greaterOrderLevel = greater.getOrderLevel();
+            rule.setOrderLevel(greaterOrderLevel);
+            ruleService.updateChargeRule(rule);
+            greater.setOrderLevel(currentLevel);
+            ruleService.updateChargeRule(greater);
+        }
+        return ResultUtil.success();
     }
 }

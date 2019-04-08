@@ -37,6 +37,7 @@ public class Rule {
     private String limitHour;
     private String limitPrice;
     private Integer delFlag;
+    private Integer orderLevel;
 
     public String getRuleId() {
         return ruleId;
@@ -284,5 +285,13 @@ public class Rule {
 
     public void setDelFlag(Integer delFlag) {
         this.delFlag = delFlag;
+    }
+
+    public Integer getOrderLevel() {
+        return orderLevel;
+    }
+
+    public void setOrderLevel(Integer orderLevel) {
+        this.orderLevel = orderLevel;
     }
 }

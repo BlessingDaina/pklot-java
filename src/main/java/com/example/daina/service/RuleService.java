@@ -33,4 +33,22 @@ public class RuleService {
     public Integer deleteChargeRule(String ruleId) {
         return ruleMapper.deleteChargeRule(ruleId);
     }
+
+    public Rule getRuleById(String ruleId) {
+        return ruleMapper.getRuleById(ruleId);
+    }
+
+    public Integer getNextOrderLevel(String parkingLotId) {
+        return ruleMapper.getNextOrderLevel(parkingLotId);
+    }
+
+    public Rule getLessOrderLevel(String parkingLotId,
+                                  String ruleId) {
+        return ruleMapper.getLessOrderLevel(parkingLotId, ruleId);
+    }
+
+    public Rule getGreaterOrderLevel(String parkingLotId,
+                                     String ruleId) {
+        return ruleMapper.getGreaterOrderLevel(parkingLotId, ruleId);
+    }
 }
