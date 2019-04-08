@@ -32,4 +32,8 @@ public class CategoryService {
         Integer result = categoryMapper.deleteCarCategory(categoryId);
         return result;
     }
+
+    public List<Map<String,Object>> listCarCategory(Map<String,Object> params){
+        return categoryMapper.listCarCategory(params);
+    }
 }

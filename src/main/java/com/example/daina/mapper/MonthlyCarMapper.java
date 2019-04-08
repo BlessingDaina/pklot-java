@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: Daina
@@ -114,4 +115,24 @@ public interface MonthlyCarMapper {
      * @date : 2019/3/27 14:02
      */
     Integer updateMonthlyCarList(List<MonthlyCar> monthlyCarList);
+
+    /**
+     * 功能描述:
+     * 〈获取前三个车牌号（时间）〉
+     * @param params 1
+     * @return : java.lang.String
+     * @author : daina
+     * @date : 2019/4/8 15:29
+     */
+    String getCarLicense(Map<String, Object> params);
+
+    /**
+     * 功能描述:
+     * 〈更新包月用户信息车牌号〉
+     * @param params 1
+     * @return : void
+     * @author : daina
+     * @date : 2019/4/8 15:32
+     */
+    void updateParkMonthlyList(Map<String, Object> params);
 }

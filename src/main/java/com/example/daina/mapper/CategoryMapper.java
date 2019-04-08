@@ -42,4 +42,13 @@ public interface CategoryMapper {
      * @date : 2019/3/24 11:20
      */
     Integer deleteCarCategory(@Param("categoryId") String categoryId);
+    /**
+     * 功能描述:
+     * 〈查询停车场车辆类别〉
+     * @param params 1
+     * @return : java.util.List<java.util.Map<java.lang.String,java.lang.Object>>
+     * @author : daina
+     * @date : 2019/4/8 15:18
+     */
+    List<Map<String,Object>> listCarCategory(Map<String,Object> params);
 }

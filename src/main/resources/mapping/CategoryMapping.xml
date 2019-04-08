@@ -35,4 +35,21 @@
         DELETE FROM park_car_category
         WHERE category_id = #{categoryId}
     </delete>
+    <select id="listCarCategory" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        category_id AS categoryId,
+        category_value AS categoryValue,
+        category_name AS categoryName,
+        IFNULL(parkinglot_id,'') AS parkingLotId
+        FROM
+        park_car_category
+        WHERE
+        <if test="parkingLotId != null and parkingLotId != ''">
+            parkinglot_id = #{parkingLotId}
+        </if>
+        <if test="parkingLotId == null or parkingLotId == ''">
+            parkinglot_id IS NULL
+        </if>
+        AND category_type = #{categoryType}
+    </select>
 </mapper>

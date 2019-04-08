@@ -71,4 +71,19 @@
         DELETE FROM park_monthly_car
         WHERE monthly_id = #{monthlyId}
     </delete>
+    <select id="getCarLicense" parameterType="java.util.Map" resultType="java.lang.String">
+        SELECT GROUP_CONCAT(car_license) AS carLicense
+        FROM (SELECT car_license
+        FROM park_monthly_car
+        WHERE monthly_id = #{monthlyId}
+        ORDER BY car_license
+        limit 0,4) as car_license
+    </select>
+    <update id="updateParkMonthlyList" parameterType="java.util.Map">
+        UPDATE park_monthly
+        SET
+        car_license=#{carLicense}
+        WHERE
+        monthly_id=#{monthlyId};
+    </update>
 </mapper>

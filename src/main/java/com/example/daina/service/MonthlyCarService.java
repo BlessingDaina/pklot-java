@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: Daina
@@ -64,5 +65,13 @@ public class MonthlyCarService {
     public Integer updateMonthlyCarList(List<MonthlyCar> monthlyCarList) {
         Integer result = monthlyCarMapper.updateMonthlyCarList(monthlyCarList);
         return result;
+    }
+
+    public String getCarLicense(Map<String,Object> params){
+        return monthlyCarMapper.getCarLicense(params);
+    }
+
+    public void updateParkMonthlyList(Map<String,Object> params) {
+        monthlyCarMapper.updateParkMonthlyList(params);
     }
 }

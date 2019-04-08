@@ -47,7 +47,7 @@
             driveway_status,
             parkinglot_name
         FROM park_driveway d LEFT JOIN parking_parkinglot p ON d.parkinglot_id = p.parkinglot_id
-        WHERE d.parkinglot_id = #{parkingLotId}
+        WHERE (p.parkinglot_id = #{parkingLotId} OR p.parent_parkinglot_id = #{parkingLotId})
               AND driveway_name LIKE CONCAT('%', #{drivewayName}, '%')
     </select>
     <select id="getDrivewayListByType" resultMap="returnMap">
@@ -58,7 +58,7 @@
             driveway_status,
             parkinglot_name
         FROM park_driveway d LEFT JOIN parking_parkinglot p ON d.parkinglot_id = p.parkinglot_id
-        WHERE d.parkinglot_id = #{parkingLotId}
+        WHERE (p.parkinglot_id = #{parkingLotId} OR p.parent_parkinglot_id = #{parkingLotId})
               AND driveway_type = #{drivewayType}
               AND driveway_name LIKE CONCAT('%', #{drivewayName}, '%')
     </select>
@@ -70,7 +70,7 @@
             driveway_status,
             parkinglot_name
         FROM park_driveway d LEFT JOIN parking_parkinglot p ON d.parkinglot_id = p.parkinglot_id
-        WHERE d.parkinglot_id = #{parkingLotId}
+        WHERE (p.parkinglot_id = #{parkingLotId} OR p.parent_parkinglot_id = #{parkingLotId})
               AND driveway_status = #{drivewayStatus}
               AND driveway_name LIKE CONCAT('%', #{drivewayName}, '%')
     </select>

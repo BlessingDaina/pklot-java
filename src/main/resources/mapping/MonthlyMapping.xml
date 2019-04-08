@@ -85,7 +85,8 @@
             monthly_amount,
             monthly_space,
             remarks,
-            c.category_name
+            c.category_name,
+            m.category_id
         FROM park_monthly m LEFT JOIN park_car_category c ON m.category_id = c.category_id
         WHERE m.parkinglot_id = #{parkingLotId} AND
               (room_number LIKE CONCAT('%', #{searchInfo}, '%') OR
@@ -116,4 +117,147 @@
         FROM park_monthly
         WHERE monthly_id = #{monthlyId}
     </select>
+    <!-- 查询当前车主姓名是否存在，如果存在，返回monthlyId -->
+    <select id="isExistOwnerName" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT monthly_id AS monthlyId
+        FROM
+            park_monthly
+        WHERE
+            parkinglot_id = #{parkingLotId}
+            AND
+            owner_name = #{ownerName}
+    </select>
+    <!-- 根据主停车场查询出所有子停车场id -->
+    <select id="listAllParkingLotId" resultType="java.util.Map" parameterType="java.util.Map">
+        SELECT
+            parkinglot_id   AS parkingLotId,
+            parkinglot_name AS parkingLotName
+        FROM
+            parking_parkinglot
+        WHERE
+            parent_parkinglot_id = #{parkingLotId}
+            OR parkinglot_id = #{parkingLotId}
+
+    </select>
+    <!-- 查询当前停车场id和包月用户是否存在，如果存在monthlyId -->
+    <select id="isExistParkingLotId" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT monthly_id AS monthlyId
+        FROM
+            park_monthly_occupy
+        WHERE
+            parkinglot_id = #{parkingLotId}
+            AND
+            monthly_id = #{monthlyId};
+    </select>
+    <!-- 根据excel表修改车位占用信息 -->
+    <update id="updateParkMonthlyOccupyFromExcel" parameterType="java.util.Map">
+        UPDATE park_monthly_occupy
+        SET
+            occupy_type = #{occupyType},
+            occupy_num  = #{occupyNum}
+        WHERE
+            parkinglot_id = #{parkingLotId}
+            AND monthly_id = #{monthlyId};
+    </update>
+    <!-- 根据excel表添加车位占用信息 -->
+    <insert id="saveParkMonthlyOccupyFromExcel" parameterType="java.util.Map">
+        INSERT INTO park_monthly_occupy (
+            occupy_id,
+            monthly_id,
+            parkinglot_id,
+            occupy_type,
+            occupy_num
+        ) VALUES (
+            #{occupyId},
+            #{monthlyId},
+            #{parkingLotId},
+            #{occupyType},
+            #{occupyNum}
+        );
+    </insert>
+    <!-- 查询车牌号是否存在，如果存在，返回monthlyId -->
+    <select id="isExistCarLicense" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT monthly_id AS monthlyId
+        FROM
+            park_monthly_car
+        WHERE
+            parkinglot_id = #{parkingLotId}
+            AND
+            car_license = #{carLicense}
+    </select>
+    <!-- 根据excel表修改包月车辆信息 -->
+    <update id="updateParkMonthlyCarFromExcel" parameterType="java.util.Map">
+        UPDATE park_monthly_car
+        SET
+            start_date = #{startDate},
+            end_date   = #{endDate}
+        WHERE
+            car_license = #{carLicense}
+            AND monthly_id = #{monthlyId}
+            AND parkinglot_id = #{parkingLotId};
+    </update>
+    <!-- 根据excel表添加包月车辆信息 -->
+    <insert id="saveParkMonthlyCarFromExcel" parameterType="java.util.Map">
+        INSERT INTO park_monthly_car (
+            monthly_car_id,
+            monthly_id,
+            parkinglot_id,
+            car_license,
+            start_date,
+            end_date
+        ) VALUES (
+            #{monthlyCarId},
+            #{monthlyId},
+            #{parkingLotId},
+            #{carLicense},
+            #{startDate},
+            #{endDate}
+        );
+    </insert>
+    <!-- 根据excel表修改包月用户基本信息 -->
+    <update id="updateParkMonthlyFromExcel" parameterType="java.util.Map">
+        UPDATE park_monthly
+        SET
+            monthly_type   = #{monthlyType},
+            room_number    = #{roomNumber},
+            phone          = #{phone},
+            monthly_amount = #{monthlyAmount},
+            occupy_num     = #{occupyNum},
+            remarks        = #{remarks},
+            owner_name     = #{ownerName},
+            category_id    = #{categoryId},
+            monthly_space  = #{monthlySpace}
+            WHERE
+            monthly_id = #{monthlyId}
+            AND parkinglot_id = #{parkingLotId};
+    </update>
+    <!-- 根据excel表添加包月用户基本信息 -->
+    <insert id="saveParkMonthlyFromExcel" parameterType="java.util.Map">
+        INSERT INTO park_monthly (
+            monthly_id,
+            parkinglot_id,
+            room_number,
+            owner_name,
+            phone,
+            monthly_type,
+            car_license,
+            occupy_num,
+            monthly_amount,
+            category_id,
+            monthly_space,
+            remarks
+        ) VALUES (
+            #{monthlyId},
+            #{parkingLotId},
+            #{roomNumber},
+            #{ownerName},
+            #{phone},
+            #{monthlyType},
+            '',
+            #{occupyNum},
+            #{monthlyAmount},
+            #{categoryId},
+            #{monthlySpace},
+            #{remarks});
+    </insert>
 </mapper>

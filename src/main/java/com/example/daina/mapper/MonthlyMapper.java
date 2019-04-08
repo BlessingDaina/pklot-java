@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: Daina
@@ -107,4 +108,104 @@ public interface MonthlyMapper {
      * @date : 2019/3/27 9:39
      */
     Integer updateMonthly(Monthly monthly);
+
+    /**
+     * 功能描述:
+     * 〈查询当前车主姓名是否存在，如果存在，返回monthlyId〉
+     * @param params 1
+     * @return : java.lang.String
+     * @author : daina
+     * @date : 2019/4/8 14:27
+     */
+    List<Map<String,Object>> isExistOwnerName(Map<String,Object> params);
+
+    /**
+     * 功能描述:
+     * 〈根据主停车场id查询出所有停车场id和名称〉
+     * @param params 1
+     * @return : java.util.List<java.util.Map<java.lang.String,java.lang.Object>>
+     * @author : daina
+     * @date : 2019/4/8 14:34
+     */
+    List<Map<String,Object>> listAllParkingLotId(Map<String, Object> params);
+
+    /**
+     * 功能描述:
+     * 〈根据停车场id从车位占用表中查询停车场id是否存在，如果存在，返回monthlyId〉
+     * @param params 1
+     * @return : java.util.Map<java.lang.String,java.lang.Object>
+     * @author : daina
+     * @date : 2019/4/8 14:42
+     */
+    Map<String,Object> isExistParkingLotId(Map<String,Object> params);
+
+    /**
+     * 功能描述:
+     * 〈根据excel表修改车位占用信息〉
+     * @param params 1
+     * @return : void
+     * @author : daina
+     * @date : 2019/4/8 14:46
+     */
+    void updateParkMonthlyOccupyFromExcel(Map<String,Object> params);
+
+    /**
+     * 功能描述:
+     * 〈根据excel表添加包月用户基本信息〉
+     * @param params 1
+     * @return : void
+     * @author : daina
+     * @date : 2019/4/8 14:51
+     */
+    void saveParkMonthlyOccupyFromExcel(Map<String,Object> params);
+
+    /**
+     * 功能描述:
+     * 〈查询车牌号是否存在，如果存在，返回monthlyId〉
+     * @param params 1
+     * @return : java.util.Map<java.lang.String,java.lang.Object>
+     * @author : daina
+     * @date : 2019/4/8 15:01
+     */
+    Map<String,Object> isExistCarLicense(Map<String,Object> params);
+
+    /**
+     * 功能描述:
+     * 〈根据excel表修改包月车辆信息〉
+     * @param params 1
+     * @return : void
+     * @author : daina
+     * @date : 2019/4/8 15:05
+     */
+    void updateParkMonthlyCarFromExcel(Map<String,Object> params);
+
+    /**
+     * 功能描述:
+     * 〈根据excel表修添加包月车辆信息〉
+     * @param params 1
+     * @return : void
+     * @author : daina
+     * @date : 2019/4/8 15:13
+     */
+    void saveParkMonthlyCarFromExcel(Map<String,Object> params);
+
+    /**
+     * 功能描述:
+     * 〈根据excel表修改包月用户基本信息〉
+     * @param params 1
+     * @return : void
+     * @author : daina
+     * @date : 2019/4/8 15:22
+     */
+    void updateParkMonthlyFromExcel(Map<String,Object> params);
+
+    /**
+     * 功能描述:
+     * 〈根据excel表添加包月用户基本信息〉
+     * @param params 1
+     * @return : void
+     * @author : daina
+     * @date : 2019/4/8 15:25
+     */
+    void saveParkMonthlyFromExcel(Map<String,Object> params);
 }

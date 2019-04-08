@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: Daina
@@ -62,5 +63,44 @@ public class MonthlyService {
     public Integer updateMonthly(Monthly monthly) {
         Integer result = monthlyMapper.updateMonthly(monthly);
         return result;
+    }
+
+    public List<Map<String,Object>> isExistOwnerName(Map<String,Object> params) {
+        return monthlyMapper.isExistOwnerName(params);
+    }
+
+    public List<Map<String, Object>> listAllParkingLotId(Map<String, Object> params) {
+        return monthlyMapper.listAllParkingLotId(params);
+    }
+
+    public Map<String,Object> isExistParkingLotId(Map<String,Object> params){
+        return monthlyMapper.isExistParkingLotId(params);
+    }
+
+    public void updateParkMonthlyOccupyFromExcel(Map<String,Object> params){
+        monthlyMapper.updateParkMonthlyOccupyFromExcel(params);
+    }
+    public void saveParkMonthlyOccupyFromExcel(Map<String,Object> params){
+        monthlyMapper.saveParkMonthlyOccupyFromExcel(params);
+    }
+
+    public Map<String,Object> isExistCarLicense(Map<String,Object> params){
+        return monthlyMapper.isExistCarLicense(params);
+    }
+
+    public void updateParkMonthlyCarFromExcel(Map<String,Object> params){
+        monthlyMapper.updateParkMonthlyCarFromExcel(params);
+    }
+
+    public void saveParkMonthlyCarFromExcel(Map<String,Object> params){
+        monthlyMapper.saveParkMonthlyCarFromExcel(params);
+    }
+
+    public void updateParkMonthlyFromExcel(Map<String,Object> params){
+        monthlyMapper.updateParkMonthlyFromExcel(params);
+    }
+
+    public void saveParkMonthlyFromExcel(Map<String,Object> params){
+        monthlyMapper.saveParkMonthlyFromExcel(params);
     }
 }
