@@ -1,19 +1,18 @@
 package com.example.daina.controller;
 
 import com.example.daina.annotation.UserLoginToken;
-import com.example.daina.entity.MonthlyCar;
-import com.example.daina.entity.MonthlyCarTmp;
-import com.example.daina.entity.MonthlyExtend;
-import com.example.daina.entity.Result;
+import com.example.daina.entity.*;
 import com.example.daina.service.MonthlyCarService;
 import com.example.daina.service.MonthlyCarTmpService;
 import com.example.daina.service.MonthlyExtendService;
 import com.example.daina.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: Daina
@@ -59,5 +58,18 @@ public class MonthlyExtendController {
             }
         }
         return ResultUtil.success(result);
+    }
+
+    @UserLoginToken
+    @RequestMapping("/getMonthlyIncomeList")
+    public Result getMonthlyIncomeList(@RequestParam("pageNum") Integer pageNum,
+                                       @RequestParam("pageSize") Integer pageSize,
+                                       @RequestParam("parkingLotId")String parkingLotId,
+                                       @RequestParam("carLicense")String carLicense,
+                                       @RequestParam("startDate")String startDate,
+                                       @RequestParam("endDate")String endDate) {
+        Page<List<Map<String, Object>>> monthlyIncomes = monthlyExtendService.getMonthlyIncomeList(pageNum,
+                pageSize, parkingLotId, carLicense, startDate, endDate);
+        return ResultUtil.success(monthlyIncomes);
     }
 }

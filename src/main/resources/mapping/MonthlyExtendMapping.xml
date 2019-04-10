@@ -22,4 +22,42 @@
         VALUES (#{extendId}, #{parkingLotId}, #{monthlyId}, #{extendDate}, #{monthlyType}, #{expdateType},
         #{expdateStart}, #{expdateEnd}, #{amountReceivable}, #{amountCollected})
     </insert>
+    <select id="getMonthlyIncomeList" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        IFNULL(DATE_FORMAT(a.expdate_start,'%Y-%m-%d'),'') AS expdatStart,
+        IFNULL(DATE_FORMAT(a.expdate_end,'%Y-%m-%d'),'') AS expdateEnd,
+        FORMAT(a.amount_receivable,2) AS amountReceivable,
+        FORMAT(a.amount_collected,2) as actPay,
+        IFNULL(DATE_FORMAT(a.extend_date,'%Y-%m-%d %H:%i:%s'),'') AS extendDate,
+        b.room_number AS roomNumber,
+        b.owner_name AS ownerName
+        FROM
+        park_monthly_extend a,
+        park_monthly b
+        WHERE
+        a.monthly_id = b.monthly_id
+        AND a.parkinglot_id = #{parkingLotId}
+        AND a.extend_date > #{startDate}
+        AND a.extend_date &lt;= #{endDate}
+        AND
+        CONCAT(IFNULL(b.car_license, '')) LIKE '%${carLicense}%'
+        ORDER BY extend_date
+        DESC
+    </select>
+    <select id="getMonthlyIncomeCount" resultType="Integer">
+        SELECT
+        COUNT(*)
+        FROM
+        park_monthly_extend a,
+        park_monthly b
+        WHERE
+        a.monthly_id = b.monthly_id
+        AND a.parkinglot_id = #{parkingLotId}
+        AND a.extend_date > #{startDate}
+        AND a.extend_date &lt;= #{endDate}
+        AND
+        CONCAT(IFNULL(b.car_license, '')) LIKE '%${carLicense}%'
+        ORDER BY extend_date
+        DESC
+    </select>
 </mapper>
