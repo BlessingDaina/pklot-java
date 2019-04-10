@@ -208,4 +208,14 @@ public interface MonthlyMapper {
      * @date : 2019/4/8 15:25
      */
     void saveParkMonthlyFromExcel(Map<String,Object> params);
+
+    /**
+     * 功能描述:
+     * 〈根据停车场查询导出包月名单列表〉
+     * @param params 1
+     * @return : java.util.List<java.util.Map<java.lang.String,java.lang.Object>>
+     * @author : daina
+     * @date : 2019/4/8 17:25
+     */
+    List<Map<String,Object>> exportParkMonthly(Map<String,Object> params);
 }

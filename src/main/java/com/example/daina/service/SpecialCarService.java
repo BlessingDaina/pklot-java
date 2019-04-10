@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: Daina
@@ -47,5 +48,13 @@ public class SpecialCarService {
     public Integer deleteSpecialCar(String specialCarId) {
         Integer result = specialCarMapper.deleteSpecialCar(specialCarId);
         return result;
+    }
+
+    public List<Map<String, Object>> exportSpecialCar(Map<String, Object> params) {
+        return specialCarMapper.exportSpecialCar(params);
+    }
+
+    public List<SpecialCar> exportTest() {
+        return specialCarMapper.exportTest();
     }
 }

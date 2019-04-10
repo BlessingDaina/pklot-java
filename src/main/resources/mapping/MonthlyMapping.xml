@@ -65,7 +65,15 @@
             remarks,
             c.category_name
         FROM park_monthly m LEFT JOIN park_car_category c ON m.category_id = c.category_id
-        WHERE m.parkinglot_id = #{parkingLotId} AND monthly_type = #{monthlyType} AND
+        WHERE m.parkinglot_id = #{parkingLotId}
+        <if test='monthlyType == -1'>
+        </if>
+        <if test='monthlyType == 0'>
+            AND monthly_type = 0
+        </if>
+        <if test='monthlyType == 1'>
+            AND monthly_type = 1
+        </if> AND
               (room_number LIKE CONCAT('%', #{searchInfo}, '%') OR
                owner_name LIKE CONCAT('%', #{searchInfo}, '%') OR
                car_license LIKE CONCAT('%', #{searchInfo}, '%') OR
@@ -260,4 +268,49 @@
             #{monthlySpace},
             #{remarks});
     </insert>
+    <select id="exportParkMonthly" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        room_number AS roomNumber,
+        owner_name AS ownerName,
+        phone,
+        CASE monthly_type WHEN 0 THEN '普通' WHEN 1 THEN '分时' ELSE '其它' END AS monthlyType,
+        IFNULL((SELECT group_concat(car_license) FROM park_monthly_car WHERE monthly_id = a.monthly_id),'') AS carLicense,
+        occupy_num AS occupyNum,
+        monthly_amount AS amount,
+        IFNULL(DATE_FORMAT((SELECT MIN(end_date) FROM park_monthly_car WHERE monthly_id = a.monthly_id),'%Y-%c-%d'),'-') AS expDate,
+        IFNULL((SELECT category_name FROM park_car_category WHERE category_id = a.category_id),'') AS categoryName,
+        IFNULL(monthly_space,'') AS monthlySpace,
+        IFNULL(remarks,'') AS remarks
+        FROM
+        park_monthly AS a
+        INNER JOIN
+        (SELECT monthly_id
+        FROM
+        (SELECT monthly_id, room_number, owner_name
+        FROM park_monthly
+        WHERE parkinglot_id = #{parkingLotId}
+        <if test='searchType == -1'>
+        </if>
+        <if test='searchType == 0'>
+            AND monthly_type = 0
+        </if>
+        <if test='searchType == 1'>
+            AND monthly_type = 1
+        </if>
+        ) predata
+        WHERE 1 = 1
+        <if test='keyword != null and keyword != ""'>
+            AND (EXISTS
+            (SELECT monthly_id
+            FROM park_monthly_car
+            WHERE parkinglot_id = #{parkingLotId}
+            AND park_monthly_car.monthly_id = predata.monthly_id
+            AND car_license LIKE '%${keyword}%')
+            OR room_number LIKE '%${keyword}%'
+            OR owner_name LIKE '%${keyword}%')
+        </if>
+        ) AS b
+        ON a.monthly_id = b.monthly_id
+        ORDER BY room_number, owner_name;
+    </select>
 </mapper>

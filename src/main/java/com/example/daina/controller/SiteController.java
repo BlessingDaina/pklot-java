@@ -27,12 +27,8 @@ public class SiteController {
 
     @UserLoginToken
     @RequestMapping(value = "/getSites", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-    public Result getSites(@RequestParam("userId")String userId) {
-        List<Site> sites = siteService.getSites();
-        if (userId == null) {
-            return ResultUtil.error(500, "参数错误");
-        } else {
-            return ResultUtil.success(sites);
-        }
+    public Result getSites(@RequestParam("roleId")String roleId) {
+        List<Site> sites = siteService.getSites(roleId);
+        return ResultUtil.success(sites);
     }
 }

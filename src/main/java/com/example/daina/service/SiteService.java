@@ -18,8 +18,8 @@ public class SiteService {
     @Autowired
     SiteMapper siteMapper;
 
-    public List<Site> getSites() {
-        List<Site> list = siteMapper.getSites();
+    public List<Site> getSites(String roleId) {
+        List<Site> list = siteMapper.getSites(roleId);
         return list;
     }
 }

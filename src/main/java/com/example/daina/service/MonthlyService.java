@@ -25,10 +25,9 @@ public class MonthlyService {
                                               String parkingLotId,
                                               String searchInfo,
                                               String monthlyType) {
-        String tag = new String("all");
         List<Monthly> monthlies;
         PageHelper.startPage(pageNum, pageSize);
-        if (monthlyType.equals(tag)) {
+        if ("-1".equals(monthlyType)) {
             monthlies = monthlyMapper.getMonthlyListByPage(parkingLotId, searchInfo);
         } else {
             monthlies = monthlyMapper.getMonthlyListByPageByType(parkingLotId, searchInfo, monthlyType);
@@ -102,5 +101,9 @@ public class MonthlyService {
 
     public void saveParkMonthlyFromExcel(Map<String,Object> params){
         monthlyMapper.saveParkMonthlyFromExcel(params);
+    }
+
+    public List<Map<String,Object>> exportParkMonthly(Map<String,Object> params){
+        return monthlyMapper.exportParkMonthly(params);
     }
 }

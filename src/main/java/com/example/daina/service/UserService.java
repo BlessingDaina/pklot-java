@@ -29,6 +29,7 @@ public class UserService {
             map.put("isAdmin", u.getIsAdmin());
             map.put("userName", u.getUserName());
             map.put("phone", u.getPhone());
+            map.put("roleId", u.getRoleId());
         }
         return map;
     }

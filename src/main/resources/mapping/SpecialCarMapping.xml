@@ -68,4 +68,35 @@
         DELETE FROM park_specialcar
         WHERE specialcar_id = #{specialCarId}
     </delete>
+    <select id="exportSpecialCar" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        car_license AS  carLicense,
+        CASE restrict_type
+        WHEN 0 THEN '永久'
+        WHEN 1 THEN '限时'
+        ELSE '未知类别'
+        END
+        AS restrictType,
+        IFNULL(CASE s.category_id
+        WHEN '0' THEN '免费车辆'
+        ELSE
+        IFNULL((
+        SELECT ca.category_name
+        FROM   park_car_category ca
+        WHERE  ca.category_id = s.category_id
+        ),'未知')
+        END,'') AS categoryName,
+        IFNULL(date_format(start_date,'%Y-%m-%d'),'') AS startDate,
+        IFNULL(date_format(end_date,'%Y-%m-%d'),'') AS endDate,
+        remarks
+        FROM    park_specialcar s
+        WHERE
+        special_type = #{specialType} AND status = #{status} AND parkinglot_id = #{parkingLotId}
+        AND CONCAT (IFNULL(car_license,''),IFNULL(remarks,'')) LIKE '%${carMessage}%'
+        ORDER BY carLicense;
+    </select>
+    <select id="exportTest" resultMap="BaseResultMap">
+        SELECT *
+        FROM park_specialcar
+    </select>
 </mapper>

@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: Daina
@@ -78,4 +79,16 @@ public interface SpecialCarMapper {
      * @date : 2019/3/24 15:06
      */
     Integer deleteSpecialCar(@Param("specialCarId")String specialCarId);
+
+    /**
+     * 功能描述:
+     * 〈导出特殊车辆〉
+     * @param params 1
+     * @return : java.util.List<java.util.Map<java.lang.String,java.lang.Object>>
+     * @author : daina
+     * @date : 2019/4/9 13:54
+     */
+    List<Map<String, Object>> exportSpecialCar(Map<String, Object> params);
+
+    List<SpecialCar> exportTest();
 }

@@ -11,19 +11,18 @@ import com.example.daina.service.MonthlyCarService;
 import com.example.daina.service.MonthlyOccupyService;
 import com.example.daina.service.MonthlyService;
 import com.example.daina.utils.DatabaseUtils;
+//import com.example.daina.utils.ExcelUtils;
 import com.example.daina.utils.ResultUtil;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import com.alibaba.fastjson.JSONArray;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -419,5 +418,59 @@ public class MonthlyController {
         } else {
             return ResultUtil.success();
         }
+    }
+
+    @UserLoginToken
+    @RequestMapping(value = "/exportParkMonthly", method = RequestMethod.POST)
+    public void exportParkMonthly(@RequestParam Map<String, Object> params, HttpServletResponse response) {
+        List<Map<String, Object>> list = monthlyService.exportParkMonthly(params);
+//当车牌数量超过三个，只保留三个车牌，加上等字
+        for (Map<String, Object> map : list) {
+            if (map.get("carLicense") != null) {
+                String[] carLicenses = map.get("carLicense").toString().split(",");
+                if (carLicenses.length >= 3) {
+                    String carLicense = carLicenses[0] + "," + carLicenses[1] + "," + carLicenses[2] + "等";
+                    map.put("carLicense", carLicense);
+                }
+            }
+        }
+
+        //excel标题
+        String header = "包月信息";
+        String[] title = {"房号", "车主", "电话　", "包月类型", "车牌号", "占用车位", "包月金额", "到期时间", "车辆类别", "包月车位"};
+
+        //excel文件名
+        String fileName = "包月信息" + System.currentTimeMillis() + ".xlsx";
+
+        //sheet名
+        String sheetName = "包月信息";
+
+        String[][] content = new String[list.size()][title.length];
+
+        XSSFWorkbook wb = new XSSFWorkbook();
+        XSSFSheet sheet = wb.createSheet(sheetName);
+
+        for (int i = 0; i < list.size(); i++) {
+            Map<String, Object> obj = list.get(i);
+            content[i][0] = obj.get("roomNumber").toString();
+            content[i][1] = obj.get("ownerName").toString();
+            content[i][2] = obj.get("phone").toString();
+            content[i][3] = obj.get("monthlyType").toString();
+            content[i][4] = obj.get("carLicense").toString();
+            content[i][5] = obj.get("occupyNum").toString();
+            content[i][6] = obj.get("amount").toString();
+            System.out.println(obj.get("expDate").toString());
+            content[i][7] = obj.get("expDate").toString();
+            content[i][8] = obj.get("categoryName").toString();
+            content[i][9] = obj.get("monthlySpace").toString();
+        }
+
+        //第一个参数代表列id(从0开始),第2个参数代表宽度值
+        sheet.setColumnWidth(4, 6000);
+
+        //创建HSSFWorkbook
+//        wb = ExcelUtils.getXSSFWorkbook(sheetName,header,title,content,wb);
+
+//        ExcelUtils.setResponseHeader(response, fileName, wb);
     }
 }
