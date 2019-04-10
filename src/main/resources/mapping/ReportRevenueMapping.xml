@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.daina.mapper.ReportRevenueMapper">
+    <select id="getReportRevenueList" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        reportdate AS reportdate,
+        replace(format(parking_amount,2),',','') AS parkingAmount,
+        replace(format(monthly_amount,2),',','') AS monthlyAmount,
+        replace(format(amount_count,2),',','') AS amountCount
+        FROM
+        report_park_daily
+        WHERE
+        parkinglot_id = #{parkingLotId}
+        AND reportdate >= #{startDate}
+        AND reportdate &lt;= #{endDate}
+        ORDER BY reportdate DESC;
+    </select>
+</mapper>

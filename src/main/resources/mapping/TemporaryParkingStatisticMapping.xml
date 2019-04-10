@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.daina.mapper.TemporaryParkingStatisticMapper">
+    <select id="getTemporaryParkingDetailList" resultType="java.util.Map" parameterType="java.util.Map">
+        SELECT
+        DATE_FORMAT(income_time,"%Y-%m-%d %H:%i:%S") AS "incomeTime",
+        income_name AS "incomeName",
+        format(IFNULL(amount_receivable,0),2) AS "amountReceivable",
+        format(IFNULL(amount_payed,0),2) AS "amountPayed",
+        IFNULL((
+        SELECT category_name
+        FROM park_car_category p
+        WHERE (p.parkinglot_id = #{parkingLotId} AND p.category_value = free_type
+        OR p.parkinglot_id IS NULL AND p.category_value = free_type) LIMIT 1
+        ),'')
+        AS freeType,
+        (CASE parking_type
+        WHEN 0 THEN '包月'
+        WHEN 1 THEN '免费'
+        WHEN 2 THEN '免费'
+        WHEN 3 THEN '免费'
+        WHEN 4 THEN '免费'
+        WHEN 5 THEN '临停'
+        WHEN 6 THEN '临停'
+        WHEN 7 THEN '临停'
+        WHEN 8 THEN '临停'
+        WHEN 9 THEN '临停'
+        ELSE '未知类别' END) AS parkingType,
+        IFNULL(DATE_FORMAT(entrance_time,"%Y-%m-%d %H:%i:%S"),'-') AS entranceTime,
+        IFNULL(DATE_FORMAT(exit_time,"%Y-%m-%d %H:%i:%S"),'-') AS exitTime,
+        remarks
+        FROM
+        finance_park_income
+        <where>
+            parkinglot_id = #{parkingLotId}
+            AND
+            income_category = 0
+            AND
+            income_time >= #{startDate}
+            AND
+            income_time &lt;= #{endDate}
+            <if test="null != freeType and freeType != '' and freeType !=-1">
+                AND
+                free_type = #{freeType}
+            </if>
+            <if test="null != incomeName and incomeName != ''">
+                AND
+                income_name LIKE "%${incomeName}%"
+            </if>
+        </where>
+        ORDER BY income_time DESC
+    </select>
+    <select id="getTemporaryParkingDetailCount" resultType="Integer">
+        SELECT
+        COUNT(*)
+        FROM
+        finance_park_income
+        where
+            parkinglot_id = #{parkingLotId}
+            AND
+            income_time >= #{startDate}
+            AND
+            income_time &lt;= #{endDate}
+    </select>
+</mapper>
