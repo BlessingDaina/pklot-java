@@ -1,6 +1,7 @@
 package com.example.daina.entity;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: Daina
@@ -13,6 +14,7 @@ public class Page<T> {
     private Integer pageSize = 10;
     private Integer count;
     private List<T> items;
+    private List<Map<String, Object>> recordItems;
     public Page() {
         super();
     }
@@ -53,5 +55,13 @@ public class Page<T> {
 
     public void setItems(List<T> items) {
         this.items = items;
+    }
+
+    public List<Map<String, Object>> getRecordItems() {
+        return recordItems;
+    }
+
+    public void setRecordItems(List<Map<String, Object>> recordItems) {
+        this.recordItems = recordItems;
     }
 }

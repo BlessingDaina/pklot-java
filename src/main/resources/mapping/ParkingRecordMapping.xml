@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.daina.mapper.ParkingRecordMapper">
+    <resultMap id="BaseResultMap" type="com.example.daina.entity.ParkingRecord">
+        <id column="record_id" jdbcType="VARCHAR" property="recordId"/>
+        <result column="parkinglot_id" jdbcType="VARCHAR" property="parkingLotId"/>
+        <result column="parking_type" jdbcType="VARCHAR" property="parkingType"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="date_year" jdbcType="INTEGER" property="dateYear"/>
+        <result column="date_month" jdbcType="INTEGER" property="dateMonth"/>
+        <result column="date_day" jdbcType="INTEGER" property="dateDay"/>
+        <result column="car_id" jdbcType="VARCHAR" property="carId"/>
+        <result column="car_type" jdbcType="INTEGER" property="carType"/>
+        <result column="car_license" jdbcType="VARCHAR" property="carLicense"/>
+        <result column="entrance_id" jdbcType="VARCHAR" property="entranceId"/>
+        <result column="entrance_time" jdbcType="VARCHAR" property="entranceTime"/>
+        <result column="entrance_photo" jdbcType="VARCHAR" property="entrancePhoto"/>
+        <result column="exit_id" jdbcType="VARCHAR" property="exitId"/>
+        <result column="exit_time" jdbcType="VARCHAR" property="exitTime"/>
+        <result column="exit_photo" jdbcType="VARCHAR" property="exitPhoto"/>
+        <result column="free_type" jdbcType="INTEGER" property="freeType"/>
+        <result column="free_reason" jdbcType="VARCHAR" property="freeReason"/>
+        <result column="amount_total" jdbcType="INTEGER" property="amountTotal"/>
+        <result column="amount_final" jdbcType="INTEGER" property="amountFinal"/>
+    </resultMap>
+
+    <select id="getParkingRecordByPage" resultType="java.util.HashMap">
+        SELECT
+        record_id AS recordId,
+        car_license AS carLicense,
+        entrance_photo AS entrancePhoto,
+        status,
+        CASE parking_type
+        WHEN 0 THEN '包月'
+        WHEN 1 THEN '免费'
+        WHEN 2 THEN '免费'
+        WHEN 3 THEN '免费'
+        WHEN 4 THEN '免费'
+        WHEN 5 THEN '临停'
+        WHEN 6 THEN '临停'
+        WHEN 7 THEN '临停'
+        WHEN 8 THEN '临停'
+        WHEN 9 THEN '临停'
+        ELSE '未知类别'
+        END
+        AS parkingType,
+        parking_type AS parkingTypeCode,
+        IFNULL(remarks,'') as remarks,
+        (
+        SELECT driveway_name
+        FROM park_driveway
+        WHERE driveway_id = entrance_id
+        ) AS entranceName,
+        IFNULL(date_format(entrance_time,'%Y-%m-%d %H:%i:%s'),'') AS entranceTime,
+        (
+        SELECT driveway_name
+        FROM park_driveway
+        WHERE driveway_id = exit_id
+        ) AS exitName,
+        IFNULL(date_format(exit_time,'%Y-%m-%d %H:%i:%s'),'') AS exitTime,
+        IFNULL(TIMESTAMPDIFF(SECOND,entrance_time,IFNULL(exit_time,sysdate())),'') AS datsum
+        FROM parking_record
+        <where>
+            parkinglot_id=#{parkingLotId} AND car_license LIKE '%${carLicense}%'
+            <if test='searchType == 1'>
+                AND parking_type IN (5,6,7,8,9)
+            </if>
+            <if test='searchType == 2'>
+                AND parking_type = 0
+            </if>
+            <if test='searchType == 3'>
+                AND parking_type IN (1,2,3,4)
+            </if>
+            <if test="null != status and status != ''">
+                AND status = #{status}
+            </if>
+            <if test="null != startDate and startDate != ''">
+                AND create_date &gt;= #{startDate}
+            </if>
+            <if test="null != endDate and endDate != ''">
+                AND create_date &lt;= #{endDate}
+            </if>
+        </where>
+    </select>
+    <select id="getParkingRecordCount" resultType="Integer">
+        SELECT COUNT(*)
+        FROM parking_record
+        <where>
+            parkinglot_id=#{parkingLotId} AND car_license LIKE '%${carLicense}%'
+            <if test='searchType == 1'>
+                AND parking_type IN (5,6,7,8,9)
+            </if>
+            <if test='searchType == 2'>
+                AND parking_type = 0
+            </if>
+            <if test='searchType == 3'>
+                AND parking_type IN (1,2,3,4)
+            </if>
+            <if test="null != status and status != ''">
+                AND status = #{status}
+            </if>
+            <if test="null != startDate and startDate != ''">
+                AND create_date &gt;= #{startDate}
+            </if>
+            <if test="null != endDate and endDate != ''">
+                AND create_date &lt;= #{endDate}
+            </if>
+        </where>
+    </select>
+    <select id="getParkingRecordInfo" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+                (
+                  SELECT
+                        parkinglot_name
+                  FROM
+                        parking_parkinglot p
+                  WHERE
+                        p.parkinglot_id = r.parkinglot_id
+                )
+                AS parkinglotName,
+                car_license AS carLicense,
+                CASE    parking_type
+                        WHEN 0 THEN '包月'
+                        WHEN 1 THEN '免费'
+                        WHEN 2 THEN '免费'
+                        WHEN 3 THEN '免费'
+                        WHEN 4 THEN '免费'
+                        WHEN 5 THEN '临停'
+                        WHEN 6 THEN '临停'
+                        WHEN 7 THEN '临停'
+                        WHEN 8 THEN '临停'
+                        WHEN 9 THEN '临停'
+                        ELSE '未知类别'
+                END
+                AS parkingType,
+                date_format(entrance_time,'%Y-%m-%d %H:%i:%s') AS entranceTime,
+                date_format(exit_time,'%Y-%m-%d %H:%i:%s') AS exitTime,
+                parkinglot_id AS parkingLotId,
+                entrance_photo AS entrancePhoto,
+                exit_photo AS exitPhoto,
+                entrance_id AS entranceId,
+                (
+                    SELECT
+                          driveway_name
+                    FROM
+                          park_driveway
+                    WHERE
+                          driveway_id = entrance_id
+                )
+                AS entranceName,
+                exit_id AS exitId,
+                (
+                    SELECT
+                          driveway_name
+                    FROM
+                          park_driveway
+                    WHERE
+                          driveway_id = exit_id
+                )
+                AS exitName,
+                IFNULL(TIMESTAMPDIFF(SECOND,entrance_time,IFNULL(exit_time,sysdate())),'') AS datsum,
+                amount_total AS amountTotal,
+                amount_final AS amountFinal
+        FROM
+                parking_record r
+        WHERE
+                record_id=#{recordId};
+    </select>
+</mapper>
