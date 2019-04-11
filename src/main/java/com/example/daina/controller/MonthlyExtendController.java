@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +34,10 @@ public class MonthlyExtendController {
     @UserLoginToken
     @RequestMapping(value = "/addMonthlyExtend")
     public Result addMonthlyExtend(MonthlyExtend monthlyExtend) {
+        //设置日期格式
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String extendDate = df.format(new Date());
+        monthlyExtend.setExtendDate(extendDate);
         Integer result = monthlyExtendService.addMonthlyExtend(monthlyExtend);
         String guid = monthlyExtend.getGuid();
         List<MonthlyCar> monthlyCarList;
