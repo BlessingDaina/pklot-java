@@ -30,6 +30,7 @@ public class UserService {
             map.put("userName", u.getUserName());
             map.put("phone", u.getPhone());
             map.put("roleId", u.getRoleId());
+            map.put("parkingLotId", u.getParkingLotId());
         }
         return map;
     }

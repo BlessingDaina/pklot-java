@@ -27,8 +27,11 @@ public class ParkingLotController {
 
     @UserLoginToken
     @RequestMapping(value = "/pklot/getParkingLotList", method = RequestMethod.POST)
-    public Result getParkingLotByPage(@RequestParam("pageNum")Integer pageNum, @RequestParam("pageSize")Integer pageSize, @RequestParam("parkingLotName")String parkingLotName) {
-        Page<ParkingLot> parkingLots = parkingLotService.getParkingLotByPage(pageNum, pageSize, parkingLotName);
+    public Result getParkingLotByPage(@RequestParam("pageNum")Integer pageNum,
+                                      @RequestParam("pageSize")Integer pageSize,
+                                      @RequestParam("parkingLotName")String parkingLotName,
+                                      @RequestParam("parkingLotId")String parkingLotId) {
+        Page<ParkingLot> parkingLots = parkingLotService.getParkingLotByPage(pageNum, pageSize, parkingLotName, parkingLotId);
         return ResultUtil.success(parkingLots);
     }
 

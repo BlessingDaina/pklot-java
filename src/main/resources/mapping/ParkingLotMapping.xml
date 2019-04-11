@@ -32,12 +32,26 @@
     <select id="getParkingLotByPage" resultMap="BaseResultMap">
         SELECT *
         FROM parking_parkinglot
-        WHERE parent_parkinglot_id IS NULL AND parkinglot_name LIKE CONCAT('%', #{parkingLotName}, '%')
+        <where>
+            parent_parkinglot_id IS NULL
+            AND parkinglot_name LIKE CONCAT('%', #{parkingLotName}, '%')
+            <if test="null != parkingLotId and parkingLotId != ''">
+                AND
+                parkinglot_Id = #{parkingLotId}
+            </if>
+        </where>
     </select>
     <select id="getParkingLotCount" resultType="Integer">
         SELECT COUNT(*)
         FROM parking_parkinglot
-        WHERE parent_parkinglot_id IS NULL
+        <where>
+            parent_parkinglot_id IS NULL
+            AND parkinglot_name LIKE CONCAT('%', #{parkingLotName}, '%')
+            <if test="null != parkingLotId and parkingLotId != ''">
+                AND
+                parkinglot_Id = #{parkingLotId}
+            </if>
+        </where>
     </select>
     <select id="getParkingLotInfo" resultMap="BaseResultMap">
         SELECT *

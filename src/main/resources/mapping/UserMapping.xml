@@ -11,6 +11,7 @@
         <result column="is_sysAdmin" jdbcType="INTEGER" property="isAdmin"/>
         <result column="del_flag" jdbcType="INTEGER" property="delFlag"/>
         <result column="role_id" jdbcType="VARCHAR" property="roleId"/>
+        <result column="parkinglot_id" jdbcType="VARCHAR" property="parkingLotId"/>
     </resultMap>
     <resultMap id="returnMap" type="java.util.HashMap">
         <id column="user_id" jdbcType="VARCHAR" property="userId"/>

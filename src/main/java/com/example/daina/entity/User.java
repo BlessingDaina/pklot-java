@@ -15,6 +15,7 @@ public class User {
     private Integer isAdmin;
     private Integer delFlag;
     private String roleId;
+    private String parkingLotId;
 
     public String getUserId() {
         return userId;
@@ -86,5 +87,13 @@ public class User {
 
     public void setRoleId(String roleId) {
         this.roleId = roleId;
+    }
+
+    public String getParkingLotId() {
+        return parkingLotId;
+    }
+
+    public void setParkingLotId(String parkingLotId) {
+        this.parkingLotId = parkingLotId;
     }
 }

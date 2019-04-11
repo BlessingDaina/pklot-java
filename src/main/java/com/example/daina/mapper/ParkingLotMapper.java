@@ -21,7 +21,8 @@ public interface ParkingLotMapper {
      * @author : daina
      * @date : 2019/3/24 11:21
      */
-    List<ParkingLot> getParkingLotByPage(@Param("parkingLotName") String parkingLotName);
+    List<ParkingLot> getParkingLotByPage(@Param("parkingLotName") String parkingLotName,
+                                         @Param("parkingLotId")String parkingLotId);
     /**
      * 功能描述:
      * 〈获取停车场总数〉
@@ -30,7 +31,8 @@ public interface ParkingLotMapper {
      * @author : daina
      * @date : 2019/3/24 11:21
      */
-    Integer getParkingLotCount();
+    Integer getParkingLotCount(@Param("parkingLotName") String parkingLotName,
+                               @Param("parkingLotId")String parkingLotId);
     /**
      * 功能描述:
      * 〈获取停车场信息〉
