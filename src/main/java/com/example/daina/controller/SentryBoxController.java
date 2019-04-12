@@ -32,13 +32,13 @@ public class SentryBoxController {
     public Result getSentry(@RequestParam("parkingLotId")String parkingLotId) {
         List<SentryBox> sentryBoxes = sentryBoxService.getSentry(parkingLotId);
         for (SentryBox sentryBox: sentryBoxes) {
-            List<Driveway> driveways = drivewayService.getDrivewayList(null, null);
-            String passageway = sentryBox.getPassagewayId();
-            String[] drivewayListId = passageway.split(",");
-            for (int i = 0; i < drivewayListId.length; i++) {
-                Driveway driveway = drivewayService.getDrivewayInfo(drivewayListId[i]);
-                driveways.add(driveway);
-            }
+            List<Driveway> driveways = drivewayService.getDrivewayListByParkId(parkingLotId);
+//            String passageway = sentryBox.getPassagewayId();
+//            String[] drivewayListId = passageway.split(",");
+//            for (int i = 0; i < drivewayListId.length; i++) {
+//                Driveway driveway = drivewayService.getDrivewayInfo(drivewayListId[i]);
+//                driveways.add(driveway);
+//            }
             sentryBox.setDriveways(driveways);
         }
         return ResultUtil.success(sentryBoxes);
