@@ -20,7 +20,7 @@
         INSERT INTO park_monthly_extend(extend_id, parkinglot_id, monthly_id,extend_date, monthly_type, expdate_type,
         expdate_start,expdate_end, amount_receivable, amount_collected)
         VALUES (#{extendId}, #{parkingLotId}, #{monthlyId}, #{extendDate}, #{monthlyType}, #{expdateType},
-        #{expdateStart}, #{expdateEnd}, #{monthlyAmount}, #{amountReceivable})
+        #{expdateStart}, #{expdateEnd}, #{amountReceivable}, #{amountCollected})
     </insert>
     <select id="getMonthlyIncomeList" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT
