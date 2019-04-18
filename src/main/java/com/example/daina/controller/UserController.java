@@ -44,8 +44,11 @@ public class UserController {
     @RequestMapping(value = "/pklot/getUserList", method = RequestMethod.POST)
     public Result getUserList(@RequestParam("userInfo")String userInfo,
                               @RequestParam("roleId")String roleId,
-                              @RequestParam("delFlag")Integer delFlag) {
-        List<Map<String, Object>> users = userService.getUserList(userInfo, roleId, delFlag);
+                              @RequestParam("delFlag")Integer delFlag,
+                              @RequestParam("parkingLotId")String parkingLotId,
+                              @RequestParam("userRoleId")String userRoleId) {
+        List<Map<String, Object>> users = userService.getUserList(userInfo,
+                roleId, delFlag, parkingLotId, userRoleId);
         return ResultUtil.success(users);
     }
 

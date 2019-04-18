@@ -67,7 +67,11 @@ public interface UserMapper {
      * @author : daina
      * @date : 2019/3/26 11:47
      */
-    List<Map<String, Object>> getUserList(@Param("userInfo") String userInfo, @Param("roleId") String roleId, @Param("delFlag") Integer delFlag);
+    List<Map<String, Object>> getUserList(@Param("userInfo") String userInfo,
+                                          @Param("roleId") String roleId,
+                                          @Param("delFlag") Integer delFlag,
+                                          @Param("parkingLotId")String parkingLotId,
+                                          @Param("userRoleId")String userRoleId);
 
     /**
      * 功能描述:

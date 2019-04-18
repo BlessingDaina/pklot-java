@@ -41,8 +41,8 @@ public class UserService {
         return userMapper.findUserByUserId(userId);
     }
 
-    public List<Map<String, Object>> getUserList (String userInfo, String roleId, Integer delFlag) {
-        List<Map<String, Object>> users = userMapper.getUserList(userInfo, roleId, delFlag);
+    public List<Map<String, Object>> getUserList (String userInfo, String roleId, Integer delFlag,String parkingLotId, String userRoleId) {
+        List<Map<String, Object>> users = userMapper.getUserList(userInfo, roleId, delFlag, parkingLotId, userRoleId);
         return users;
     }
     public Integer getIsUsedLoginName(String loginName) {

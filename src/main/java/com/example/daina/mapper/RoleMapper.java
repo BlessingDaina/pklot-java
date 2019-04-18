@@ -1,6 +1,7 @@
 package com.example.daina.mapper;
 
 import com.example.daina.entity.Role;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,5 +21,5 @@ public interface RoleMapper {
      * @author : daina
      * @date : 2019/3/24 11:22
      */
-    List<Role> getAllRole();
+    List<Role> getAllRole(@Param("roleId")String roleId);
 }

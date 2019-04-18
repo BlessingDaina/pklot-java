@@ -17,7 +17,7 @@ public class RoleService {
     @Autowired
     RoleMapper roleMapper;
 
-    public List<Role> getAllRole() {
-        return roleMapper.getAllRole();
+    public List<Role> getAllRole(String roleId) {
+        return roleMapper.getAllRole(roleId);
     }
 }
