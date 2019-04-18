@@ -158,7 +158,7 @@
                           driveway_id = exit_id
                 )
                 AS exitName,
-                IFNULL(TIMESTAMPDIFF(SECOND,entrance_time,IFNULL(exit_time,sysdate())),'') AS datsum,
+                IFNULL(TIMESTAMPDIFF(SECOND,entrance_time,IFNULL(exit_time,sysdate())),'%Y-%m-%d %H:%i:%s') AS datsum,
                 amount_total AS amountTotal,
                 amount_final AS amountFinal
         FROM

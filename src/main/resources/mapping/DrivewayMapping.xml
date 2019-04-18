@@ -37,7 +37,7 @@
         driveway_status,
         parkinglot_name
         FROM park_driveway d LEFT JOIN parking_parkinglot p ON d.parkinglot_id = p.parkinglot_id
-        WHERE d.parkinglot_id = #{parkingLotId} OR  p.parent_parkinglot_id = #{parkingLotId} order by driveway_id
+        WHERE (d.parkinglot_id = #{parkingLotId} OR  p.parent_parkinglot_id = #{parkingLotId}) AND driveway_status = 1 order by driveway_id
     </select>
     <select id="getDrivewayList" resultMap="returnMap">
         SELECT

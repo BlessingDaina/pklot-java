@@ -26,7 +26,7 @@
         SELECT *
         FROM sys_user
         WHERE
-            login_name = #{loginName} AND login_pwd = #{loginPwd}
+            login_name = #{loginName} AND login_pwd = #{loginPwd} AND del_flag = 0
     </select>
     <select id="findUserByLoginName" resultMap="BaseResultMap">
         SELECT *
@@ -76,12 +76,12 @@
         <selectKey keyProperty="userId" resultType="String" order="BEFORE">
             SELECT replace(uuid(),'-','') AS userId
         </selectKey>
-        INSERT INTO sys_user(user_id, user_name, login_name, login_pwd, phone, role_id)
-        VALUES (#{userId}, #{userName}, #{loginName}, #{loginPwd}, #{phone}, #{roleId})
+        INSERT INTO sys_user(user_id, user_name, login_name, login_pwd, phone, role_id, is_sysAdmin, parkinglot_id)
+        VALUES (#{userId}, #{userName}, #{loginName}, #{loginPwd}, #{phone}, #{roleId}, #{isAdmin}, #{parkingLotId})
     </insert>
     <update id="updateUser">
         UPDATE sys_user
-        SET user_name = #{userName}, phone = #{phone}, role_id = #{roleId}
+        SET user_name = #{userName}, phone = #{phone}, role_id = #{roleId}, is_sysAdmin = #{isAdmin}
         WHERE user_id = #{userId}
     </update>
     <update id="resetPwd">
