@@ -72,13 +72,13 @@
         FROM sys_user
         WHERE phone = #{phone}
     </select>
-    <insert id="addUser">
-        <selectKey keyProperty="userId" resultType="String" order="BEFORE">
-            SELECT replace(uuid(),'-','') AS userId
-        </selectKey>
-        INSERT INTO sys_user(user_id, user_name, login_name, login_pwd, phone, role_id, is_sysAdmin, parkinglot_id)
-        VALUES (#{userId}, #{userName}, #{loginName}, #{loginPwd}, #{phone}, #{roleId}, #{isAdmin}, #{parkingLotId})
-    </insert>
+<insert id="addUser">
+    <selectKey keyProperty="userId" resultType="String" order="BEFORE">
+        SELECT replace(uuid(),'-','') AS userId
+    </selectKey>
+    INSERT INTO sys_user(user_id, user_name, login_name, login_pwd, phone, role_id, is_sysAdmin, parkinglot_id)
+    VALUES (#{userId}, #{userName}, #{loginName}, #{loginPwd}, #{phone}, #{roleId}, #{isAdmin}, #{parkingLotId})
+</insert>
     <update id="updateUser">
         UPDATE sys_user
         SET user_name = #{userName}, phone = #{phone}, role_id = #{roleId}, is_sysAdmin = #{isAdmin}

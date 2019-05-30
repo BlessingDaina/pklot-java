@@ -157,7 +157,7 @@ public interface MonthlyMapper {
      * @author : daina
      * @date : 2019/4/8 14:51
      */
-    void saveParkMonthlyOccupyFromExcel(Map<String,Object> params);
+    Integer saveParkMonthlyOccupyFromExcel(Map<String,Object> params);
 
     /**
      * 功能描述:

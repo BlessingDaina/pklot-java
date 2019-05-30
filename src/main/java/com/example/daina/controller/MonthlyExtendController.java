@@ -5,6 +5,7 @@ import com.example.daina.entity.*;
 import com.example.daina.service.MonthlyCarService;
 import com.example.daina.service.MonthlyCarTmpService;
 import com.example.daina.service.MonthlyExtendService;
+import com.example.daina.service.ReportRevenueService;
 import com.example.daina.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,8 @@ public class MonthlyExtendController {
     MonthlyCarService monthlyCarService;
     @Autowired
     MonthlyCarTmpService monthlyCarTmpService;
+    @Autowired
+    ReportRevenueService reportRevenueService;
 
     @UserLoginToken
     @RequestMapping(value = "/addMonthlyExtend")
@@ -39,6 +42,19 @@ public class MonthlyExtendController {
         String extendDate = df.format(new Date());
         monthlyExtend.setExtendDate(extendDate);
         Integer result = monthlyExtendService.addMonthlyExtend(monthlyExtend);
+        // 添加统计
+        Integer reportTag = reportRevenueService.getReportRevenueByDayCount(monthlyExtend.getParkingLotId(), extendDate);
+        System.out.println(reportTag);
+        if (reportTag == 0) {
+            System.out.println("id"+monthlyExtend.getParkingLotId());
+            Integer addReport = reportRevenueService.addReportRevenue(monthlyExtend.getParkingLotId(), extendDate, monthlyExtend.getAmountCollected().intValue(), monthlyExtend.getAmountCollected().intValue());
+        } else {
+            Report day = reportRevenueService.getReportRevenueByDay(monthlyExtend.getParkingLotId(), extendDate);
+            System.out.println("date"+day.getMonthlyAmount());
+            Integer monthlyAmount = day.getMonthlyAmount() + monthlyExtend.getAmountCollected().intValue();
+            Integer amountCount = day.getAmountCount() + monthlyExtend.getAmountCollected().intValue();
+            Integer updateReport = reportRevenueService.updateReportRevenue(day.getDailyId(), monthlyAmount, amountCount);
+        }
         String guid = monthlyExtend.getGuid();
         List<MonthlyCar> monthlyCarList;
         List<MonthlyCarTmp> monthlyCarTmpList;

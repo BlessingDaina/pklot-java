@@ -116,10 +116,10 @@
         SET occupy_num = #{occupyNum}
         WHERE monthly_id = #{monthlyId}
     </update>
-    <delete id="deleteMonthly">
-        DELETE FROM park_monthly
-        WHERE monthly_id = #{monthlyId}
-    </delete>
+<delete id="deleteMonthly">
+    DELETE FROM park_monthly
+    WHERE monthly_id = #{monthlyId}
+</delete>
     <select id="getMonthlyById" resultMap="BaseResultMap">
         SELECT *
         FROM park_monthly

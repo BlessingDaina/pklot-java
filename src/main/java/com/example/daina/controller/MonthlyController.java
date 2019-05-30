@@ -87,17 +87,17 @@ public class MonthlyController {
     }
 
     @UserLoginToken
-    @RequestMapping(value = "/deleteMonthly")
-    public Result deleteMonthly(@RequestParam("monthlyId") String monthlyId) {
-        Integer result = monthlyService.deleteMonthly(monthlyId);
-        if (result != 0) {
-            monthlyOccupyService.deleteMonthlyOccupy(monthlyId);
-            monthlyCarService.deleteMonthlyCarByMonthlyId(monthlyId);
-            return ResultUtil.success(result);
-        } else {
-            return ResultUtil.error(500, "删除失败");
-        }
+@RequestMapping(value = "/deleteMonthly")
+public Result deleteMonthly(@RequestParam("monthlyId") String monthlyId) {
+    Integer result = monthlyService.deleteMonthly(monthlyId);
+    if (result != 0) {
+        monthlyOccupyService.deleteMonthlyOccupy(monthlyId);
+        monthlyCarService.deleteMonthlyCarByMonthlyId(monthlyId);
+        return ResultUtil.success(result);
+    } else {
+        return ResultUtil.error(500, "删除失败");
     }
+}
 
     @UserLoginToken
     @RequestMapping(value = "/updateMonthlyAndOccupy")
@@ -240,6 +240,7 @@ public class MonthlyController {
             } else {
                 // 查询主停车场和所有子停车场
                 List<Map<String, Object>> allParkingLot = monthlyService.listAllParkingLotId(pmInfo);
+                System.out.println("size"+allParkingLot.size());
                 for (Map<String, Object> parkingLotInfo : allParkingLot) {
                     //该停车场是否添加占位信息
                     boolean isSaveOccupy = false;
@@ -273,8 +274,10 @@ public class MonthlyController {
                             isSaveOccupy = true;
                         }
                     }
+                    System.out.println("isSaveOccupy"+isSaveOccupy);
                     // 如果未为该停车场添加车场，默认添加一个占用数量为0的车场
                     if (!isSaveOccupy) {
+                        System.out.println(278);
                         parkingLotInfo.put("occupyType", 0);
                         parkingLotInfo.put("occupyNum", 0);
                         if (parkMonthlyMonthlyId == null) {

@@ -1,5 +1,6 @@
 package com.example.daina.mapper;
 
+import com.example.daina.entity.Report;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -26,4 +27,15 @@ public interface ReportRevenueMapper {
     List<Map<String, Object>> getReportRevenueList (@Param("parkingLotId")String parkingLotId,
                                                     @Param("startDate")String startDate,
                                                     @Param("endDate")String endDate);
+    Report getReportRevenueByDay (@Param("parkingLotId")String parkingLotId,
+                                  @Param("toDay")String toDay);
+    Integer getReportRevenueByDayCount(@Param("parkingLotId")String parkingLotId,
+                                       @Param("toDay")String toDay);
+    Integer addReportRevenue(@Param("parkingLotId")String parkingLotId,
+                             @Param("reportdate")String reportdate,
+                             @Param("monthlyAmount")Integer monthlyAmount,
+                             @Param("amountCount")Integer amountCount);
+    Integer updateReportRevenue(@Param("dailyId")Integer dailyId,
+                             @Param("monthlyAmount")Integer monthlyAmount,
+                             @Param("amountCount")Integer amountCount);
 }

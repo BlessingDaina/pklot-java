@@ -26,24 +26,30 @@ public class ParkingLotController {
     ParkingLotService parkingLotService;
 
     @UserLoginToken
-    @RequestMapping(value = "/pklot/getParkingLotList", method = RequestMethod.POST)
-    public Result getParkingLotByPage(@RequestParam("pageNum")Integer pageNum,
-                                      @RequestParam("pageSize")Integer pageSize,
-                                      @RequestParam("parkingLotName")String parkingLotName,
-                                      @RequestParam("parkingLotId")String parkingLotId) {
-        Page<ParkingLot> parkingLots = parkingLotService.getParkingLotByPage(pageNum, pageSize, parkingLotName, parkingLotId);
+    @RequestMapping(value = "/pklot/getParkingLotList",
+            method = RequestMethod.POST)
+    public Result getParkingLotByPage(
+            @RequestParam("pageNum")Integer pageNum,
+            @RequestParam("pageSize")Integer pageSize,
+            @RequestParam("parkingLotName")String parkingLotName,
+            @RequestParam("parkingLotId")String parkingLotId) {
+        Page<ParkingLot> parkingLots = parkingLotService.getParkingLotByPage(
+                pageNum, pageSize, parkingLotName, parkingLotId);
         return ResultUtil.success(parkingLots);
     }
 
     @UserLoginToken
-    @RequestMapping(value = "/pklot/getParkingLotInfo", method = RequestMethod.POST)
-    public Result getParkingLotInfo(@RequestParam("parkingLotId")String parkingLotId) {
+    @RequestMapping(value = "/pklot/getParkingLotInfo",
+            method = RequestMethod.POST)
+    public Result getParkingLotInfo(
+            @RequestParam("parkingLotId")String parkingLotId) {
         ParkingLot parkingLot = parkingLotService.getParkingLotInfo(parkingLotId);
         return ResultUtil.success(parkingLot);
     }
 
     @UserLoginToken
-    @RequestMapping(value = "/pklot/getNestParkingLot", method = RequestMethod.POST)
+    @RequestMapping(value = "/pklot/getNestParkingLot",
+            method = RequestMethod.POST)
     public Result getNestParkingLot(@RequestParam("parkingLotId")String parkingLotId) {
         List<ParkingLot> parkingLots = parkingLotService.getNestParkingLot(parkingLotId);
         return ResultUtil.success(parkingLots);
@@ -51,7 +57,10 @@ public class ParkingLotController {
 
     @UserLoginToken
     @RequestMapping(value = "/pklot/updateManagement", method = RequestMethod.POST)
-    public Result updateManagement(@RequestParam("key")String key,@RequestParam("value")String value,@RequestParam("parkingLotId")String parkingLotId) {
+    public Result updateManagement(
+            @RequestParam("key")String key,
+            @RequestParam("value")String value,
+            @RequestParam("parkingLotId")String parkingLotId) {
         Integer result = parkingLotService.updateManagement(key, value, parkingLotId);
         return ResultUtil.success(result);
     }

@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.daina.mapper.ReportRevenueMapper">
+    <resultMap id="BaseResultMap" type="com.example.daina.entity.Report">
+        <id column="daily_id" jdbcType="INTEGER" property="dailyId"/>
+        <result column="monthly_amount" jdbcType="INTEGER" property="monthlyAmount"/>
+        <result column="amount_count" jdbcType="INTEGER" property="amountCount"/>
+        <result column="reportdate" jdbcType="VARCHAR" property="reportDate"/>
+    </resultMap>
     <select id="getReportRevenueList" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT
         reportdate AS reportdate,
@@ -15,4 +21,37 @@
         AND reportdate &lt;= #{endDate}
         ORDER BY reportdate DESC;
     </select>
+    <select id="getReportRevenueByDay" resultMap="BaseResultMap">
+        SELECT
+            *
+        FROM
+            report_park_daily
+        WHERE
+            parkinglot_id = #{parkingLotId}
+            AND reportdate = #{toDay};
+    </select>
+    <select id="getReportRevenueByDayCount" resultType="Integer">
+        SELECT COUNT(*)
+        FROM report_park_daily
+        WHERE parkinglot_id = #{parkingLotId}
+              AND reportdate = #{toDay};
+    </select>
+    <insert id="addReportRevenue" parameterType="java.util.Map">
+        INSERT INTO report_park_daily (
+            parkinglot_id,
+            reportdate,
+            monthly_amount,
+            amount_count
+        ) VALUES (
+            #{parkingLotId},
+            #{reportdate},
+            #{monthlyAmount},
+            #{amountCount}
+        );
+    </insert>
+    <update id="updateReportRevenue">
+        UPDATE report_park_daily
+        SET monthly_amount = #{monthlyAmount}, amount_count = #{amountCount}
+        WHERE daily_id = #{dailyId}
+    </update>
 </mapper>

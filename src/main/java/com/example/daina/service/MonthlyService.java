@@ -79,8 +79,9 @@ public class MonthlyService {
     public void updateParkMonthlyOccupyFromExcel(Map<String,Object> params){
         monthlyMapper.updateParkMonthlyOccupyFromExcel(params);
     }
-    public void saveParkMonthlyOccupyFromExcel(Map<String,Object> params){
-        monthlyMapper.saveParkMonthlyOccupyFromExcel(params);
+    public Integer saveParkMonthlyOccupyFromExcel(Map<String,Object> params){
+        System.out.println("oo"+params.get("occupyNum"));
+        return monthlyMapper.saveParkMonthlyOccupyFromExcel(params);
     }
 
     public Map<String,Object> isExistCarLicense(Map<String,Object> params){
